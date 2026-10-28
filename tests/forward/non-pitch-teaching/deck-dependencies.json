@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "variant": "non-pitch-teaching",
+  "source_revision": "b7d7e80e1fead9814ab69bc94deed4c9921407bedf5dc3a3342120b8a271570e",
+  "builder_revision": "bff2f8a68d9bdb881bc6e9f6d075d139214fcf6bcab55a8602b55ab6fd801366",
+  "files": [
+    {
+      "path": "content.json",
+      "role": "authoring",
+      "sha256": "b7d7e80e1fead9814ab69bc94deed4c9921407bedf5dc3a3342120b8a271570e"
+    },
+    {
+      "path": "build.py",
+      "role": "runtime",
+      "sha256": "bff2f8a68d9bdb881bc6e9f6d075d139214fcf6bcab55a8602b55ab6fd801366"
+    }
+  ]
+}

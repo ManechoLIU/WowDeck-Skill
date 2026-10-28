@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "status": "PASS_SOURCE_BOUND",
+  "validation_level": "source_bound",
+  "reproducibility": "source-bound",
+  "index_sha256": "ce057f74f823b30679ed7407fbb470630ffe244b69be5d85256b9da76e9bfeaa",
+  "slide_count": 7,
+  "manifest_sha256": null,
+  "features": [
+    "navigation"
+  ],
+  "source_revision": "b7d7e80e1fead9814ab69bc94deed4c9921407bedf5dc3a3342120b8a271570e",
+  "builder_revision": "bff2f8a68d9bdb881bc6e9f6d075d139214fcf6bcab55a8602b55ab6fd801366",
+  "variant": "non-pitch-teaching",
+  "dependency_manifest_sha256": "d691447c4e69d4ff19b9d5df6a294e95f2c31d58fb9592191cf95beab5ccbd6c",
+  "dependency_files": [
+    {
+      "path": "build.py",
+      "role": "runtime",
+      "sha256": "bff2f8a68d9bdb881bc6e9f6d075d139214fcf6bcab55a8602b55ab6fd801366"
+    },
+    {
+      "path": "content.json",
+      "role": "authoring",
+      "sha256": "b7d7e80e1fead9814ab69bc94deed4c9921407bedf5dc3a3342120b8a271570e"
+    }
+  ],
+  "source_sha256": "5875441a1fd2c31d2f7b7e8398ec021c30bf4dd3cb0096781b94018eddb4bba6",
+  "asset_sha256": {
+    "index.html": "ce057f74f823b30679ed7407fbb470630ffe244b69be5d85256b9da76e9bfeaa"
+  },
+  "artifact_sha256": "f454e1d5debd5cdc1b29c483b815a0803bc455e19b04e7d24436a6128f6b67d4"
+}

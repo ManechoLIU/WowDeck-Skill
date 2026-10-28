@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "scenario": {
+    "id": "SYN-CHECKOUT-LATENCY-2026-10-14",
+    "title": "电商结账延迟事故",
+    "fictional": true,
+    "truth_notice": "本文件是前向测试使用的虚构且自洽的唯一事实源，不描述任何真实企业、系统或事故。",
+    "scope": "结账服务生产环境的一次延迟事故及其即时处置",
+    "timezone": "Asia/Shanghai"
+  },
+  "provenance": [
+    {
+      "source_id": "SRC-INCIDENT-RECORD",
+      "kind": "synthetic_incident_record",
+      "status": "test_fixture",
+      "covers": [
+        "F01",
+        "F02",
+        "F03",
+        "F04",
+        "F05",
+        "F06",
+        "F07",
+        "F08",
+        "F09",
+        "F10"
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "fact_id": "F01",
+      "claim": "事故窗口为 2026-10-14 10:02 至 10:47，共 45 分钟。",
+      "status": "sourced_synthetic_fact",
+      "source_id": "SRC-INCIDENT-RECORD"
+    },
+    {
+      "fact_id": "F02",
+      "claim": "结账请求 p95 延迟从事发前的 480 毫秒升至峰值 3.8 秒。",
+      "status": "sourced_synthetic_fact",
+      "source_id": "SRC-INCIDENT-RECORD"
+    },
+    {
+      "fact_id": "F03",
+      "claim": "窗口内共有 12,480 次结账尝试，其中 2,146 次耗时超过 2 秒；317 笔订单在事故窗口结束时仍未完成。",
+      "status": "sourced_synthetic_fact",
+      "source_id": "SRC-INCIDENT-RECORD",
+      "wording_limit": "不得把 317 笔写成永久流失、取消或收入损失。"
+    },
+    {
+      "fact_id": "F04",
+      "claim": "09:55 的一次配置发布把库存预占客户端超时从 300 毫秒提高到 1,500 毫秒。",
+      "status": "sourced_synthetic_fact",
+      "source_id": "SRC-INCIDENT-RECORD"
+    },
+    {
+      "fact_id": "F05",
+      "claim": "库存预占服务从 10:02 起出现间歇性变慢。",
+      "status": "sourced_synthetic_fact",
+      "source_id": "SRC-INCIDENT-RECORD",
+      "wording_limit": "间歇性变慢是触发条件；其自身变慢的原因仍未知。"
+    },
+    {
+      "fact_id": "F06",
+      "claim": "较长的等待时间让结账服务的 200 个下游连接被占用更久；连接池饱和后，请求排队，排队请求触发的重试进一步放大延迟。",
+      "status": "confirmed_root_cause_chain",
+      "source_id": "SRC-INCIDENT-RECORD"
+    },
+    {
+      "fact_id": "F07",
+      "claim": "p95 延迟告警于 10:08 触发，值班工程师据此开始排查。",
+      "status": "sourced_synthetic_fact",
+      "source_id": "SRC-INCIDENT-RECORD"
+    },
+    {
+      "fact_id": "F08",
+      "claim": "10:31 开始回滚，10:39 完成：客户端超时恢复为 300 毫秒，并把单次结账请求的库存预占重试上限设为 1 次。",
+      "status": "implemented_remediation",
+      "source_id": "SRC-INCIDENT-RECORD"
+    },
+    {
+      "fact_id": "F09",
+      "claim": "10:47 时 p95 延迟回落至 520 毫秒，并在随后 60 分钟保持不高于 520 毫秒；本次事故的直接放大路径已解除。",
+      "status": "verified_immediate_recovery",
+      "source_id": "SRC-INCIDENT-RECORD",
+      "wording_limit": "只可声称即时恢复和直接放大路径解除，不得声称所有长期风险均已关闭。"
+    },
+    {
+      "fact_id": "F10",
+      "claim": "仍未知：317 笔未完成订单中有多少在窗口后完成、实际收入影响、库存预占服务变慢的原因，以及发布前负载测试为何未暴露连接池饱和。",
+      "status": "unknowns",
+      "source_id": "SRC-INCIDENT-RECORD"
+    }
+  ],
+  "shared_glossary": [
+    {
+      "term_id": "G01",
+      "term": "p95 延迟",
+      "definition": "把请求按耗时从快到慢排序后，第 95 百分位附近请求的耗时；它不是平均值。"
+    },
+    {
+      "term_id": "G02",
+      "term": "客户端超时",
+      "definition": "结账服务等待下游响应的最长时间，超过后停止本次等待。"
+    },
+    {
+      "term_id": "G03",
+      "term": "连接池",
+      "definition": "结账服务可同时占用的一组下游连接；连接被长时间占用时，新请求需要排队。"
+    },
+    {
+      "term_id": "G04",
+      "term": "重试放大",
+      "definition": "原请求尚未顺利完成时又产生重试，使下游负载和等待进一步增加。"
+    }
+  ],
+  "freeze_policy": {
+    "required_fact_coverage": "两种受众路线都必须覆盖 F01 至 F10。",
+    "allowed_variation": [
+      "入口",
+      "术语解释深度",
+      "顺序",
+      "每页密度",
+      "自解释方式",
+      "证据显著度",
+      "结尾行为"
+    ],
+    "forbidden_variation": [
+      "新增或删减事故事实",
+      "改变数值、时间、因果、修复状态或未知项",
+      "把未知升级为事实",
+      "把 317 笔未完成订单改写为永久损失",
+      "把即时恢复改写为长期风险全部关闭"
+    ]
+  }
+}

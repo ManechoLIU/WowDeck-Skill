@@ -1,0 +1,624 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "generated_at": "2026-10-28T12:08:15.273Z",
+  "artifact": {
+    "path": "index.html",
+    "index_sha256": "ce057f74f823b30679ed7407fbb470630ffe244b69be5d85256b9da76e9bfeaa",
+    "artifact_sha256": "f454e1d5debd5cdc1b29c483b815a0803bc455e19b04e7d24436a6128f6b67d4",
+    "source_revision": "b7d7e80e1fead9814ab69bc94deed4c9921407bedf5dc3a3342120b8a271570e",
+    "builder_revision": "bff2f8a68d9bdb881bc6e9f6d075d139214fcf6bcab55a8602b55ab6fd801366",
+    "source_sha256": "5875441a1fd2c31d2f7b7e8398ec021c30bf4dd3cb0096781b94018eddb4bba6",
+    "variant": "non-pitch-teaching"
+  },
+  "browser": {
+    "name": "Chrome/156.0.8078.48",
+    "protocol_version": "1.3",
+    "mode": "headless-new"
+  },
+  "target": {
+    "transport": "loopback HTTP",
+    "stage": "16:9"
+  },
+  "assertions": {
+    "seven_slides": true,
+    "navigation_only": true,
+    "keyboard_pointer_and_hash_navigation": true,
+    "no_layout_overflow": true,
+    "no_console_errors": true,
+    "reduced_motion_preserves_meaning": true,
+    "artifact_matches_receipt": true
+  },
+  "console_errors": [],
+  "checks": [
+    {
+      "profile": "standard",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "reduced_motion": false,
+      "pages": [
+        {
+          "active_id": "start-in-the-middle",
+          "hash": "#start-in-the-middle",
+          "counter": "1 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "order-makes-it-safe",
+          "hash": "#order-makes-it-safe",
+          "counter": "2 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "step-one",
+          "hash": "#step-one",
+          "counter": "3 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "step-two",
+          "hash": "#step-two",
+          "counter": "4 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "step-three",
+          "hash": "#step-three",
+          "counter": "5 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "practice-58",
+          "hash": "#practice-58",
+          "counter": "6 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "practice-answer",
+          "hash": "#practice-answer",
+          "counter": "7 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        }
+      ],
+      "navigation": {
+        "pass": true,
+        "steps": [
+          {
+            "action": "initial",
+            "id": "start-in-the-middle",
+            "hash": "#start-in-the-middle"
+          },
+          {
+            "action": "ArrowRight",
+            "id": "order-makes-it-safe",
+            "hash": "#order-makes-it-safe",
+            "focus": "h1"
+          },
+          {
+            "action": "PageDown",
+            "id": "step-one",
+            "hash": "#step-one"
+          },
+          {
+            "action": "End",
+            "id": "practice-answer",
+            "hash": "#practice-answer"
+          },
+          {
+            "action": "Home",
+            "id": "start-in-the-middle",
+            "hash": "#start-in-the-middle"
+          },
+          {
+            "action": "Space",
+            "id": "order-makes-it-safe",
+            "hash": "#order-makes-it-safe"
+          },
+          {
+            "action": "ArrowLeft",
+            "id": "start-in-the-middle",
+            "hash": "#start-in-the-middle"
+          },
+          {
+            "action": "next button",
+            "id": "order-makes-it-safe",
+            "hash": "#order-makes-it-safe"
+          },
+          {
+            "action": "previous button",
+            "id": "start-in-the-middle",
+            "hash": "#start-in-the-middle"
+          },
+          {
+            "action": "hash id",
+            "id": "practice-58",
+            "hash": "#practice-58"
+          },
+          {
+            "action": "hash number",
+            "id": "step-one",
+            "hash": "#3"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "profile": "small",
+      "viewport": {
+        "width": 800,
+        "height": 600
+      },
+      "reduced_motion": false,
+      "pages": [
+        {
+          "active_id": "start-in-the-middle",
+          "hash": "#start-in-the-middle",
+          "counter": "1 / 7",
+          "viewport": {
+            "width": 800,
+            "height": 600
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 56.5,
+            "right": 776,
+            "bottom": 479.5,
+            "width": 752,
+            "height": 423
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "order-makes-it-safe",
+          "hash": "#order-makes-it-safe",
+          "counter": "2 / 7",
+          "viewport": {
+            "width": 800,
+            "height": 600
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 56.5,
+            "right": 776,
+            "bottom": 479.5,
+            "width": 752,
+            "height": 423
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "step-one",
+          "hash": "#step-one",
+          "counter": "3 / 7",
+          "viewport": {
+            "width": 800,
+            "height": 600
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 56.5,
+            "right": 776,
+            "bottom": 479.5,
+            "width": 752,
+            "height": 423
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "step-two",
+          "hash": "#step-two",
+          "counter": "4 / 7",
+          "viewport": {
+            "width": 800,
+            "height": 600
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 56.5,
+            "right": 776,
+            "bottom": 479.5,
+            "width": 752,
+            "height": 423
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "step-three",
+          "hash": "#step-three",
+          "counter": "5 / 7",
+          "viewport": {
+            "width": 800,
+            "height": 600
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 56.5,
+            "right": 776,
+            "bottom": 479.5,
+            "width": 752,
+            "height": 423
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "practice-58",
+          "hash": "#practice-58",
+          "counter": "6 / 7",
+          "viewport": {
+            "width": 800,
+            "height": 600
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 56.5,
+            "right": 776,
+            "bottom": 479.5,
+            "width": 752,
+            "height": 423
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "practice-answer",
+          "hash": "#practice-answer",
+          "counter": "7 / 7",
+          "viewport": {
+            "width": 800,
+            "height": 600
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 56.5,
+            "right": 776,
+            "bottom": 479.5,
+            "width": 752,
+            "height": 423
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        }
+      ],
+      "deep_link": {
+        "requested": "#practice-58",
+        "resolved": "#practice-58",
+        "active_id": "practice-58",
+        "pass": true
+      },
+      "pass": true
+    },
+    {
+      "profile": "reduced-motion",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "reduced_motion": true,
+      "state": {
+        "media_matches": true,
+        "all_reveals_visible": true,
+        "all_reveal_animations_disabled": true,
+        "active_id": "order-makes-it-safe"
+      },
+      "pages": [
+        {
+          "active_id": "start-in-the-middle",
+          "hash": "#start-in-the-middle",
+          "counter": "1 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "order-makes-it-safe",
+          "hash": "#order-makes-it-safe",
+          "counter": "2 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "step-one",
+          "hash": "#step-one",
+          "counter": "3 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "step-two",
+          "hash": "#step-two",
+          "counter": "4 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "step-three",
+          "hash": "#step-three",
+          "counter": "5 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "practice-58",
+          "hash": "#practice-58",
+          "counter": "6 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        },
+        {
+          "active_id": "practice-answer",
+          "hash": "#practice-answer",
+          "counter": "7 / 7",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "stage_rect": {
+            "left": 24,
+            "top": 26.5,
+            "right": 1416,
+            "bottom": 809.5,
+            "width": 1392,
+            "height": 783
+          },
+          "stage_within_viewport": true,
+          "document_overflow": false,
+          "slide_overflow": false,
+          "overflow_elements": [],
+          "state_synchronized": true,
+          "pass": true
+        }
+      ],
+      "pass": true
+    }
+  ]
+}

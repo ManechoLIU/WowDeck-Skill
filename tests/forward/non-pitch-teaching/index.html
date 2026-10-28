@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="zh-CN" data-aspect="16:9">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="给没有算法基础的成人学习者">
+  <link rel="icon" href="data:,">
+  <title>二分查找为什么每一步能排除一半</title>
+  <script id="deck-config" type="application/json">{"version":1,"title":"二分查找为什么每一步能排除一半","aspect":"16:9","features":["navigation"],"source_revision":"b7d7e80e1fead9814ab69bc94deed4c9921407bedf5dc3a3342120b8a271570e","builder_revision":"bff2f8a68d9bdb881bc6e9f6d075d139214fcf6bcab55a8602b55ab6fd801366"}</script>
+  <style>
+    :root {
+      --stage-width: 1600px;
+      --stage-height: 900px;
+      --stage-scale: 1;
+      --stage-shell-width: var(--stage-width);
+      --stage-shell-height: var(--stage-height);
+      --paper: #f8f4e9;
+      --paper-deep: #eee7d6;
+      --ink: #182b31;
+      --muted: #56676c;
+      --line: #c9c4b7;
+      --accent: #b84a2b;
+      --accent-soft: #f4d5c7;
+      --candidate: #0f5962;
+      --candidate-soft: #dcebed;
+      --found: #21694f;
+      --found-soft: #d8eadf;
+      --discarded: #747b7c;
+      --charcoal: #14252a;
+      --focus: #075fb4;
+      --ease: cubic-bezier(.22, .72, .24, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 16% 14%, rgb(241 196 156 / 14%), transparent 30%),
+        #15262b;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    button, output { font: inherit; }
+
+    button:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 4px solid var(--focus);
+      outline-offset: 5px;
+    }
+
+    #deck-viewport {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 24px 24px 88px;
+    }
+
+    #stage-shell {
+      position: relative;
+      width: var(--stage-shell-width);
+      height: var(--stage-shell-height);
+    }
+
+    #stage {
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: var(--stage-width);
+      height: var(--stage-height);
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgb(24 43 49 / 3%) 1px, transparent 1px),
+        linear-gradient(rgb(24 43 49 / 3%) 1px, transparent 1px),
+        var(--paper);
+      background-size: 40px 40px;
+      box-shadow: 0 32px 100px rgb(0 0 0 / 38%);
+      transform: scale(var(--stage-scale));
+      transform-origin: top left;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-rows: 44px minmax(0, 1fr) 42px;
+      gap: 22px;
+      padding: 44px 64px 38px;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateX(14px);
+      pointer-events: none;
+    }
+
+    :root[data-ready="true"] .slide {
+      transition: opacity 220ms var(--ease), transform 220ms var(--ease);
+    }
+
+    .slide.is-active {
+      z-index: 1;
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+      transition-delay: 0s;
+    }
+
+    .slide-header,
+    .slide-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      color: var(--muted);
+      font-size: 18px;
+      letter-spacing: .04em;
+    }
+
+    .slide-header {
+      border-bottom: 1px solid var(--line);
+      font-weight: 700;
+    }
+
+    .slide-footer {
+      border-top: 1px solid var(--line);
+      font-size: 17px;
+    }
+
+    .slide-footer > :last-child {
+      overflow: hidden;
+      max-width: 1050px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .role-label {
+      flex: none;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .slide-main {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      align-content: center;
+      gap: 22px;
+    }
+
+    h1, p { margin: 0; }
+
+    .title-block h1 {
+      max-width: 1220px;
+      margin-top: 9px;
+      font-size: 64px;
+      line-height: 1.06;
+      letter-spacing: -.035em;
+      text-wrap: balance;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 19px;
+      font-weight: 850;
+      letter-spacing: .12em;
+    }
+
+    .lead {
+      max-width: 930px;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 29px;
+      line-height: 1.48;
+    }
+
+    .intro-layout,
+    .step-heading,
+    .practice-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 42px;
+    }
+
+    .target-card,
+    .practice-target {
+      width: 260px;
+      padding: 24px 28px;
+      border: 2px solid var(--accent);
+      border-radius: 20px;
+      background: var(--accent-soft);
+    }
+
+    .target-card span,
+    .practice-target span {
+      display: block;
+      color: var(--accent);
+      font-size: 17px;
+      font-weight: 850;
+      letter-spacing: .08em;
+    }
+
+    .target-card strong,
+    .practice-target strong {
+      display: block;
+      margin: 3px 0;
+      font-size: 82px;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .target-card p { color: var(--muted); font-size: 20px; }
+
+    .number-board { width: 100%; }
+
+    .number-strip {
+      display: grid;
+      grid-template-columns: repeat(15, minmax(0, 1fr));
+      gap: 8px;
+      margin: 0;
+      padding: 22px 0 0;
+      list-style: none;
+    }
+
+    .number-cell {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-width: 0;
+      height: 76px;
+      border: 2px solid #8e999b;
+      border-radius: 12px;
+      color: var(--candidate);
+      background: rgb(255 255 255 / 62%);
+      font-size: 30px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .number-cell strong { position: relative; z-index: 1; }
+
+    .number-cell.is-candidate {
+      border-color: var(--candidate);
+      background: var(--candidate-soft);
+    }
+
+    .number-cell.is-past,
+    .number-cell.is-discarded {
+      overflow: hidden;
+      color: var(--discarded);
+      border-color: #a4aaa9;
+      background: #e6e2d8;
+    }
+
+    .number-cell.is-past { opacity: .52; }
+
+    .number-cell.is-past::after,
+    .number-cell.is-discarded::after {
+      content: "";
+      position: absolute;
+      inset: 50% -8px auto;
+      height: 3px;
+      background: #7a8180;
+      transform: rotate(-22deg);
+      transform-origin: center;
+    }
+
+    .number-cell.is-mid {
+      opacity: 1;
+      border: 4px solid var(--accent);
+      color: var(--ink);
+      background: var(--accent-soft);
+      box-shadow: 0 0 0 4px rgb(184 74 43 / 14%);
+    }
+
+    .number-cell.is-found {
+      opacity: 1;
+      border: 4px solid var(--found);
+      color: #fff;
+      background: var(--found);
+      box-shadow: 0 0 0 5px rgb(33 105 79 / 15%);
+    }
+
+    .number-cell.is-found::after { display: none; }
+
+    .cell-marker {
+      position: absolute;
+      inset: -25px 50% auto auto;
+      z-index: 2;
+      width: max-content;
+      max-width: 108px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      color: #fff;
+      background: var(--accent);
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.1;
+      transform: translateX(50%);
+    }
+
+    .is-found .cell-marker { background: var(--found); }
+
+    .strip-legend {
+      display: flex;
+      justify-content: flex-end;
+      gap: 22px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .strip-legend span { display: flex; align-items: center; gap: 7px; }
+
+    .legend-dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 4px;
+      border: 2px solid currentColor;
+    }
+
+    .legend-dot.candidate { color: var(--candidate); background: var(--candidate-soft); }
+    .legend-dot.middle { color: var(--accent); background: var(--accent-soft); }
+    .legend-dot.discarded {
+      color: var(--discarded);
+      background: linear-gradient(-30deg, transparent 42%, currentColor 43% 57%, transparent 58%);
+    }
+
+    .takeaway,
+    .boundary,
+    .pause-note,
+    .nuance,
+    .closing {
+      padding: 16px 20px;
+      border-left: 6px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      background: rgb(255 255 255 / 62%);
+      font-size: 23px;
+      line-height: 1.4;
+    }
+
+    .premise {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 25px;
+      font-weight: 750;
+    }
+
+    .premise span {
+      padding: 6px 11px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--candidate);
+      font-size: 16px;
+    }
+
+    .compact-strip .number-strip { padding-top: 18px; }
+    .compact-strip .number-cell { height: 58px; font-size: 25px; }
+    .compact-strip .strip-legend { display: none; }
+
+    .logic-chain {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .logic-step {
+      display: grid;
+      grid-template-columns: 74px 1fr;
+      align-items: center;
+      min-width: 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgb(255 255 255 / 64%);
+    }
+
+    .logic-mark {
+      color: var(--accent);
+      font-size: 52px;
+      font-weight: 900;
+    }
+
+    .logic-step strong { font-size: 21px; }
+    .logic-step p { margin-top: 6px; color: var(--muted); font-size: 20px; line-height: 1.35; }
+
+    .boundary { border-left-color: var(--candidate); font-size: 20px; }
+
+    .comparison {
+      min-width: 250px;
+      padding: 18px 24px;
+      border-radius: 18px;
+      color: #fff;
+      background: var(--charcoal);
+      font-size: 47px;
+      font-weight: 900;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .reason-grid,
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1.55fr .8fr .7fr;
+      gap: 14px;
+    }
+
+    .reason-grid p,
+    .summary-grid p {
+      min-width: 0;
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: rgb(255 255 255 / 62%);
+      font-size: 20px;
+      line-height: 1.38;
+    }
+
+    .reason-grid span,
+    .summary-grid span {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 850;
+      letter-spacing: .08em;
+    }
+
+    .reason-grid strong,
+    .summary-grid strong { font-size: 23px; }
+
+    .summary-grid { grid-template-columns: 1fr 1fr; }
+    .nuance { border-left-color: var(--candidate); font-size: 20px; }
+
+    .practice-target { width: 220px; padding-block: 18px; }
+    .practice-target strong { font-size: 66px; }
+
+    .practice-steps,
+    .recipe {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .practice-steps li,
+    .recipe li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgb(255 255 255 / 62%);
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .practice-steps li span,
+    .recipe li span {
+      display: grid;
+      flex: none;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--candidate);
+      font-weight: 900;
+    }
+
+    .pause-note { border-left-color: var(--candidate); font-weight: 750; }
+
+    .answer-slide .title-block h1 { font-size: 55px; }
+
+    .trail {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .trail-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 13px 18px;
+      border-radius: 15px;
+      color: var(--ink);
+      background: var(--paper-deep);
+    }
+
+    .trail-card strong { color: var(--accent); font-size: 38px; }
+    .trail-card span { font-size: 21px; font-weight: 800; text-align: center; }
+    .trail-card em { color: var(--candidate); font-size: 17px; font-style: normal; font-weight: 800; }
+
+    .answer-strip .number-strip { padding-top: 20px; }
+    .answer-strip .number-cell { height: 60px; font-size: 24px; }
+    .answer-strip .strip-legend { display: none; }
+    .recipe li { padding-block: 11px; font-size: 17px; }
+    .recipe li span { width: 30px; height: 30px; }
+    .closing { border-left-color: var(--found); font-size: 21px; font-weight: 750; }
+
+    .reveal { opacity: 0; transform: translateY(9px); }
+
+    .slide.is-active .reveal {
+      animation: reveal-in 360ms var(--ease) both;
+      animation-delay: var(--delay, 0ms);
+    }
+
+    @keyframes reveal-in {
+      to { opacity: 1; transform: none; }
+    }
+
+    .controls {
+      position: fixed;
+      inset: auto 18px 18px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: #edf4f3;
+    }
+
+    .controls button {
+      min-width: 112px;
+      min-height: 48px;
+      padding: 10px 18px;
+      border: 1px solid rgb(255 255 255 / 26%);
+      border-radius: 999px;
+      color: inherit;
+      background: #20383f;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .controls button:hover:not(:disabled) { background: #2a4a53; }
+    .controls button:disabled { opacity: .38; cursor: default; }
+
+    .counter {
+      min-width: 92px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+    }
+
+    .key-hint {
+      position: fixed;
+      right: 24px;
+      bottom: 31px;
+      color: #b7c7c8;
+      font-size: 14px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .001ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: .001ms !important;
+      }
+
+      .reveal { opacity: 1; transform: none; animation: none !important; }
+    }
+
+    @media print {
+      @page { size: 16.6667in 9.375in; margin: 0; }
+
+      html, body {
+        width: auto;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+      }
+
+      #deck-viewport {
+        position: static;
+        display: block;
+        padding: 0;
+        overflow: visible;
+      }
+
+      #stage-shell,
+      #stage {
+        position: static;
+        width: 1600px;
+        height: auto;
+        transform: none;
+        box-shadow: none;
+        overflow: visible;
+      }
+
+      .slide,
+      .slide.is-active {
+        position: relative;
+        width: 1600px;
+        height: 900px;
+        visibility: visible;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+        break-after: page;
+        page-break-after: always;
+      }
+
+      .slide:last-child { break-after: auto; page-break-after: auto; }
+      .reveal { opacity: 1; transform: none; animation: none !important; }
+      .controls, .key-hint { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="deck-viewport">
+    <div id="stage-shell">
+      <div id="stage" role="region" aria-roledescription="幻灯片" aria-label="二分查找为什么每一步能排除一半">
+        <section class="slide is-active" id="start-in-the-middle" data-title="先看中间" aria-labelledby="heading-start-in-the-middle" aria-hidden="false">
+      <header class="slide-header">
+        <span>二分查找 · 直觉课</span>
+        <span>01 / 07</span>
+      </header>
+      <main class="slide-main intro-slide">
+        <div class="intro-layout"><div><div class="title-block reveal" style="--delay:60ms"><p class="eyebrow">先从直觉开始</p><h1 id="heading-start-in-the-middle" tabindex="-1">找 37，你会先看哪一个数字？</h1></div><p class="lead reveal" style="--delay:120ms">从左到右逐个找当然可以。二分查找换一个起点：先看当前范围的中间。</p></div><div class="target-card reveal" style="--delay:180ms"><span>要找的数字</span><strong>37</strong><p>中间数是 29</p></div></div><div class="reveal" style="--delay:220ms"><div class="number-board" aria-label="升序数字列表，先看中间数"><ul class="number-strip"><li class="number-cell" aria-label="3，数字"><strong>3</strong></li><li class="number-cell" aria-label="7，数字"><strong>7</strong></li><li class="number-cell" aria-label="10，数字"><strong>10</strong></li><li class="number-cell" aria-label="14，数字"><strong>14</strong></li><li class="number-cell" aria-label="18，数字"><strong>18</strong></li><li class="number-cell" aria-label="22，数字"><strong>22</strong></li><li class="number-cell" aria-label="25，数字"><strong>25</strong></li><li class="number-cell is-mid" aria-label="29，当前中间数"><span class="cell-marker" aria-hidden="true">先看这里</span><strong>29</strong></li><li class="number-cell" aria-label="33，数字"><strong>33</strong></li><li class="number-cell" aria-label="37，数字"><strong>37</strong></li><li class="number-cell" aria-label="41，数字"><strong>41</strong></li><li class="number-cell" aria-label="46，数字"><strong>46</strong></li><li class="number-cell" aria-label="52，数字"><strong>52</strong></li><li class="number-cell" aria-label="58，数字"><strong>58</strong></li><li class="number-cell" aria-label="63，数字"><strong>63</strong></li></ul><div class="strip-legend" aria-hidden="true"><span><i class="legend-dot candidate"></i>仍可能</span><span><i class="legend-dot middle"></i>当前中间</span><span><i class="legend-dot discarded"></i>已排除</span></div></div></div><p class="takeaway reveal" style="--delay:280ms">这一眼不是猜测。列表有顺序，所以比较一次就能判定整整一侧。</p>
+      </main>
+      <footer class="slide-footer">
+        <span class="role-label">具体入口</span>
+        <span>接下来回答：为什么能放心划掉一整段？</span>
+      </footer>
+    </section>
+<section class="slide" id="order-makes-it-safe" data-title="顺序带来排除" aria-labelledby="heading-order-makes-it-safe" aria-hidden="true" inert>
+      <header class="slide-header">
+        <span>二分查找 · 直觉课</span>
+        <span>02 / 07</span>
+      </header>
+      <main class="slide-main rule-slide">
+        <div class="title-block reveal" style="--delay:60ms"><p class="eyebrow">关键原理</p><h1 id="heading-order-makes-it-safe" tabindex="-1">能排除一半，靠的不是运气，是顺序</h1></div><p class="premise reveal" style="--delay:120ms"><span>前提</span>这串数字从左到右越来越大</p><div class="compact-strip reveal" style="--delay:150ms"><div class="number-board" aria-label="有序数字列，中间数为 29"><ul class="number-strip"><li class="number-cell" aria-label="3，数字"><strong>3</strong></li><li class="number-cell" aria-label="7，数字"><strong>7</strong></li><li class="number-cell" aria-label="10，数字"><strong>10</strong></li><li class="number-cell" aria-label="14，数字"><strong>14</strong></li><li class="number-cell" aria-label="18，数字"><strong>18</strong></li><li class="number-cell" aria-label="22，数字"><strong>22</strong></li><li class="number-cell" aria-label="25，数字"><strong>25</strong></li><li class="number-cell is-mid" aria-label="29，当前中间数"><span class="cell-marker" aria-hidden="true">中间 29</span><strong>29</strong></li><li class="number-cell" aria-label="33，数字"><strong>33</strong></li><li class="number-cell" aria-label="37，数字"><strong>37</strong></li><li class="number-cell" aria-label="41，数字"><strong>41</strong></li><li class="number-cell" aria-label="46，数字"><strong>46</strong></li><li class="number-cell" aria-label="52，数字"><strong>52</strong></li><li class="number-cell" aria-label="58，数字"><strong>58</strong></li><li class="number-cell" aria-label="63，数字"><strong>63</strong></li></ul><div class="strip-legend" aria-hidden="true"><span><i class="legend-dot candidate"></i>仍可能</span><span><i class="legend-dot middle"></i>当前中间</span><span><i class="legend-dot discarded"></i>已排除</span></div></div></div><ol class="logic-chain"><li class="logic-step reveal" style="--delay:180ms"><span class="logic-mark">≤</span><div><strong>29 左边</strong><p>每一个数都 ≤ 29</p></div></li><li class="logic-step reveal" style="--delay:250ms"><span class="logic-mark">&lt;</span><div><strong>这次比较</strong><p>29 &lt; 37</p></div></li><li class="logic-step reveal" style="--delay:320ms"><span class="logic-mark">≠</span><div><strong>所以</strong><p>左边整段都不可能等于 37</p></div></li></ol><p class="boundary reveal" style="--delay:420ms"><strong>边界：</strong>如果列表没有排序，左边可能藏着更大的数，这个推理就会失效。</p>
+      </main>
+      <footer class="slide-footer">
+        <span class="role-label">建立原理</span>
+        <span>顺序把一个点的比较，扩展成一整段的结论。</span>
+      </footer>
+    </section>
+<section class="slide" id="step-one" data-title="第一步" aria-labelledby="heading-step-one" aria-hidden="true" inert>
+      <header class="slide-header">
+        <span>二分查找 · 直觉课</span>
+        <span>03 / 07</span>
+      </header>
+      <main class="slide-main step-slide">
+        <div class="step-heading"><div class="title-block reveal" style="--delay:60ms"><p class="eyebrow">候选范围 15 → 7</p><h1 id="heading-step-one" tabindex="-1">第一步：37 比 29 大</h1></div><div class="comparison reveal" style="--delay:120ms" aria-label="比较结果 37 &gt; 29">37 &gt; 29</div></div><div class="reveal" style="--delay:190ms"><div class="number-board" aria-label="第一步：37 比 29 大后的数字状态"><ul class="number-strip"><li class="number-cell is-discarded" aria-label="3，本轮排除"><strong>3</strong></li><li class="number-cell is-discarded" aria-label="7，本轮排除"><strong>7</strong></li><li class="number-cell is-discarded" aria-label="10，本轮排除"><strong>10</strong></li><li class="number-cell is-discarded" aria-label="14，本轮排除"><strong>14</strong></li><li class="number-cell is-discarded" aria-label="18，本轮排除"><strong>18</strong></li><li class="number-cell is-discarded" aria-label="22，本轮排除"><strong>22</strong></li><li class="number-cell is-discarded" aria-label="25，本轮排除"><strong>25</strong></li><li class="number-cell is-discarded is-mid" aria-label="29，本轮排除，当前中间数"><span class="cell-marker" aria-hidden="true">当前中间</span><strong>29</strong></li><li class="number-cell is-candidate" aria-label="33，仍是候选"><strong>33</strong></li><li class="number-cell is-candidate" aria-label="37，仍是候选"><strong>37</strong></li><li class="number-cell is-candidate" aria-label="41，仍是候选"><strong>41</strong></li><li class="number-cell is-candidate" aria-label="46，仍是候选"><strong>46</strong></li><li class="number-cell is-candidate" aria-label="52，仍是候选"><strong>52</strong></li><li class="number-cell is-candidate" aria-label="58，仍是候选"><strong>58</strong></li><li class="number-cell is-candidate" aria-label="63，仍是候选"><strong>63</strong></li></ul><div class="strip-legend" aria-hidden="true"><span><i class="legend-dot candidate"></i>仍可能</span><span><i class="legend-dot middle"></i>当前中间</span><span><i class="legend-dot discarded"></i>已排除</span></div></div></div><div class="reason-grid reveal" style="--delay:260ms"><p><span>为什么</span>29 以及它左边的数都 ≤ 29，所以都不是 37。</p><p><span>怎么做</span><strong>只留下右半边</strong></p><p><span>结果</span><strong>还剩 7 个候选</strong></p></div>
+      </main>
+      <footer class="slide-footer">
+        <span class="role-label">示范第一次排除</span>
+        <span>排除不是删除答案，而是删除已经证明不可能的范围。</span>
+      </footer>
+    </section>
+<section class="slide" id="step-two" data-title="第二步" aria-labelledby="heading-step-two" aria-hidden="true" inert>
+      <header class="slide-header">
+        <span>二分查找 · 直觉课</span>
+        <span>04 / 07</span>
+      </header>
+      <main class="slide-main step-slide">
+        <div class="step-heading"><div class="title-block reveal" style="--delay:60ms"><p class="eyebrow">候选范围 7 → 3</p><h1 id="heading-step-two" tabindex="-1">第二步：37 比 46 小</h1></div><div class="comparison reveal" style="--delay:120ms" aria-label="比较结果 37 &lt; 46">37 &lt; 46</div></div><div class="reveal" style="--delay:190ms"><div class="number-board" aria-label="第二步：37 比 46 小后的数字状态"><ul class="number-strip"><li class="number-cell is-past" aria-label="3，此前已排除"><strong>3</strong></li><li class="number-cell is-past" aria-label="7，此前已排除"><strong>7</strong></li><li class="number-cell is-past" aria-label="10，此前已排除"><strong>10</strong></li><li class="number-cell is-past" aria-label="14，此前已排除"><strong>14</strong></li><li class="number-cell is-past" aria-label="18，此前已排除"><strong>18</strong></li><li class="number-cell is-past" aria-label="22，此前已排除"><strong>22</strong></li><li class="number-cell is-past" aria-label="25，此前已排除"><strong>25</strong></li><li class="number-cell is-past" aria-label="29，此前已排除"><strong>29</strong></li><li class="number-cell is-candidate" aria-label="33，仍是候选"><strong>33</strong></li><li class="number-cell is-candidate" aria-label="37，仍是候选"><strong>37</strong></li><li class="number-cell is-candidate" aria-label="41，仍是候选"><strong>41</strong></li><li class="number-cell is-discarded is-mid" aria-label="46，本轮排除，当前中间数"><span class="cell-marker" aria-hidden="true">当前中间</span><strong>46</strong></li><li class="number-cell is-discarded" aria-label="52，本轮排除"><strong>52</strong></li><li class="number-cell is-discarded" aria-label="58，本轮排除"><strong>58</strong></li><li class="number-cell is-discarded" aria-label="63，本轮排除"><strong>63</strong></li></ul><div class="strip-legend" aria-hidden="true"><span><i class="legend-dot candidate"></i>仍可能</span><span><i class="legend-dot middle"></i>当前中间</span><span><i class="legend-dot discarded"></i>已排除</span></div></div></div><div class="reason-grid reveal" style="--delay:260ms"><p><span>为什么</span>46 以及它右边的数都 ≥ 46，所以都不是 37。</p><p><span>怎么做</span><strong>只留下左半边</strong></p><p><span>结果</span><strong>还剩 3 个候选</strong></p></div>
+      </main>
+      <footer class="slide-footer">
+        <span class="role-label">示范第二次排除</span>
+        <span>每一步都在新的候选范围里重新找中间。</span>
+      </footer>
+    </section>
+<section class="slide" id="step-three" data-title="找到 37" aria-labelledby="heading-step-three" aria-hidden="true" inert>
+      <header class="slide-header">
+        <span>二分查找 · 直觉课</span>
+        <span>05 / 07</span>
+      </header>
+      <main class="slide-main found-slide">
+        <div class="step-heading"><div class="title-block reveal" style="--delay:60ms"><p class="eyebrow">候选范围 3 → 找到</p><h1 id="heading-step-three" tabindex="-1">第三步：正中 37</h1></div><div class="comparison reveal" style="--delay:120ms" aria-label="比较结果 37 = 37">37 = 37</div></div><div class="reveal" style="--delay:190ms"><div class="number-board" aria-label="第三步：正中 37后的数字状态"><ul class="number-strip"><li class="number-cell is-past" aria-label="3，此前已排除"><strong>3</strong></li><li class="number-cell is-past" aria-label="7，此前已排除"><strong>7</strong></li><li class="number-cell is-past" aria-label="10，此前已排除"><strong>10</strong></li><li class="number-cell is-past" aria-label="14，此前已排除"><strong>14</strong></li><li class="number-cell is-past" aria-label="18，此前已排除"><strong>18</strong></li><li class="number-cell is-past" aria-label="22，此前已排除"><strong>22</strong></li><li class="number-cell is-past" aria-label="25，此前已排除"><strong>25</strong></li><li class="number-cell is-past" aria-label="29，此前已排除"><strong>29</strong></li><li class="number-cell is-candidate" aria-label="33，仍是候选"><strong>33</strong></li><li class="number-cell is-candidate is-found" aria-label="37，仍是候选，目标值"><span class="cell-marker" aria-hidden="true">找到</span><strong>37</strong></li><li class="number-cell is-candidate" aria-label="41，仍是候选"><strong>41</strong></li><li class="number-cell is-past" aria-label="46，此前已排除"><strong>46</strong></li><li class="number-cell is-past" aria-label="52，此前已排除"><strong>52</strong></li><li class="number-cell is-past" aria-label="58，此前已排除"><strong>58</strong></li><li class="number-cell is-past" aria-label="63，此前已排除"><strong>63</strong></li></ul><div class="strip-legend" aria-hidden="true"><span><i class="legend-dot candidate"></i>仍可能</span><span><i class="legend-dot middle"></i>当前中间</span><span><i class="legend-dot discarded"></i>已排除</span></div></div></div><div class="summary-grid reveal" style="--delay:260ms"><p><span>比较路径</span><strong>看过的中间数：29 → 46 → 37</strong></p><p><span>范围变化</span><strong>候选范围：15 → 7 → 3 → 找到</strong></p></div><p class="nuance reveal" style="--delay:330ms">这里的“一半”是大约一半：候选数为奇数时，两侧会相差一个。</p>
+      </main>
+      <footer class="slide-footer">
+        <span class="role-label">完成示范并综合</span>
+        <span>核心不是记路径，而是每次都只保留仍有可能的一侧。</span>
+      </footer>
+    </section>
+<section class="slide" id="practice-58" data-title="手算一次" aria-labelledby="heading-practice-58" aria-hidden="true" inert>
+      <header class="slide-header">
+        <span>二分查找 · 直觉课</span>
+        <span>06 / 07</span>
+      </header>
+      <main class="slide-main practice-slide">
+        <div class="practice-heading"><div class="title-block reveal" style="--delay:60ms"><p class="eyebrow">轮到你</p><h1 id="heading-practice-58" tabindex="-1">现在找 58：把每次看到的中间数写下来</h1></div><div class="practice-target reveal" style="--delay:120ms"><span>目标</span><strong>58</strong></div></div><div class="reveal" style="--delay:170ms"><div class="number-board" aria-label="手算练习的升序数字列"><ul class="number-strip"><li class="number-cell" aria-label="3，数字"><strong>3</strong></li><li class="number-cell" aria-label="7，数字"><strong>7</strong></li><li class="number-cell" aria-label="10，数字"><strong>10</strong></li><li class="number-cell" aria-label="14，数字"><strong>14</strong></li><li class="number-cell" aria-label="18，数字"><strong>18</strong></li><li class="number-cell" aria-label="22，数字"><strong>22</strong></li><li class="number-cell" aria-label="25，数字"><strong>25</strong></li><li class="number-cell is-mid" aria-label="29，当前中间数"><span class="cell-marker" aria-hidden="true">从这里开始</span><strong>29</strong></li><li class="number-cell" aria-label="33，数字"><strong>33</strong></li><li class="number-cell" aria-label="37，数字"><strong>37</strong></li><li class="number-cell" aria-label="41，数字"><strong>41</strong></li><li class="number-cell" aria-label="46，数字"><strong>46</strong></li><li class="number-cell" aria-label="52，数字"><strong>52</strong></li><li class="number-cell" aria-label="58，数字"><strong>58</strong></li><li class="number-cell" aria-label="63，数字"><strong>63</strong></li></ul><div class="strip-legend" aria-hidden="true"><span><i class="legend-dot candidate"></i>仍可能</span><span><i class="legend-dot middle"></i>当前中间</span><span><i class="legend-dot discarded"></i>已排除</span></div></div></div><ol class="practice-steps reveal" style="--delay:230ms"><li><span>1</span>圈出当前候选范围的中间数</li><li><span>2</span>比较它和 58 的大小</li><li><span>3</span>划掉不可能的一侧</li><li><span>4</span>在剩下的范围里重复</li></ol><p class="pause-note reveal" style="--delay:300ms">先在纸上写出你的路径，再翻到下一页核对。</p>
+      </main>
+      <footer class="slide-footer">
+        <span class="role-label">迁移练习</span>
+        <span>问题只要一个：目标在中间数的左边、右边，还是正中？</span>
+      </footer>
+    </section>
+<section class="slide" id="practice-answer" data-title="练习答案" aria-labelledby="heading-practice-answer" aria-hidden="true" inert>
+      <header class="slide-header">
+        <span>二分查找 · 直觉课</span>
+        <span>07 / 07</span>
+      </header>
+      <main class="slide-main answer-slide">
+        <div class="title-block reveal" style="--delay:60ms"><p class="eyebrow">核对路径</p><h1 id="heading-practice-answer" tabindex="-1">29 → 46 → 58，三次比较找到</h1></div><ol class="trail reveal" style="--delay:120ms"><li class="trail-card"><strong>29</strong><span>58 &gt; 29</span><em>留下右边</em></li><li class="trail-card"><strong>46</strong><span>58 &gt; 46</span><em>再留下右边</em></li><li class="trail-card"><strong>58</strong><span>58 = 58</span><em>找到</em></li></ol><div class="answer-strip reveal" style="--delay:190ms"><div class="number-board" aria-label="找到 58 后的最终状态"><ul class="number-strip"><li class="number-cell is-past" aria-label="3，此前已排除"><strong>3</strong></li><li class="number-cell is-past" aria-label="7，此前已排除"><strong>7</strong></li><li class="number-cell is-past" aria-label="10，此前已排除"><strong>10</strong></li><li class="number-cell is-past" aria-label="14，此前已排除"><strong>14</strong></li><li class="number-cell is-past" aria-label="18，此前已排除"><strong>18</strong></li><li class="number-cell is-past" aria-label="22，此前已排除"><strong>22</strong></li><li class="number-cell is-past" aria-label="25，此前已排除"><strong>25</strong></li><li class="number-cell is-past" aria-label="29，此前已排除"><strong>29</strong></li><li class="number-cell is-past" aria-label="33，此前已排除"><strong>33</strong></li><li class="number-cell is-past" aria-label="37，此前已排除"><strong>37</strong></li><li class="number-cell is-past" aria-label="41，此前已排除"><strong>41</strong></li><li class="number-cell is-past" aria-label="46，此前已排除"><strong>46</strong></li><li class="number-cell is-candidate" aria-label="52，仍是候选"><strong>52</strong></li><li class="number-cell is-candidate is-found" aria-label="58，仍是候选，目标值"><span class="cell-marker" aria-hidden="true">找到</span><strong>58</strong></li><li class="number-cell is-candidate" aria-label="63，仍是候选"><strong>63</strong></li></ul><div class="strip-legend" aria-hidden="true"><span><i class="legend-dot candidate"></i>仍可能</span><span><i class="legend-dot middle"></i>当前中间</span><span><i class="legend-dot discarded"></i>已排除</span></div></div></div><ol class="recipe reveal" style="--delay:250ms"><li><span>1</span>找中间</li><li><span>2</span>比较大小</li><li><span>3</span>排除不可能的一侧</li><li><span>4</span>对剩下的范围重复</li></ol><p class="closing reveal" style="--delay:320ms">只要列表有序，一次比较就能把“不可能”扩展到整整一侧。</p>
+      </main>
+      <footer class="slide-footer">
+        <span class="role-label">反馈与迁移</span>
+        <span>你已经解释过原理，也手算完成了一次。</span>
+      </footer>
+    </section>
+      </div>
+    </div>
+  </div>
+
+  <nav class="controls" aria-label="页面导航">
+    <button type="button" id="previous-slide" aria-label="上一页">← 上一页</button>
+    <output class="counter" id="slide-counter" aria-live="polite">1 / 7</output>
+    <button type="button" id="next-slide" aria-label="下一页">下一页 →</button>
+  </nav>
+  <p class="key-hint" aria-hidden="true">← → / 空格</p>
+  <p class="sr-only" id="navigation-help">使用左右方向键、Page Up、Page Down、Home、End 或空格翻页。</p>
+  <noscript><p class="sr-only">此演示需要 JavaScript 以启用翻页；当前仍可阅读第一页。</p></noscript>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const root = document.documentElement;
+      const viewport = document.getElementById('deck-viewport');
+      const stage = document.getElementById('stage');
+      const slides = Array.from(stage.querySelectorAll('.slide'));
+      const previousButton = document.getElementById('previous-slide');
+      const nextButton = document.getElementById('next-slide');
+      const counter = document.getElementById('slide-counter');
+      const config = JSON.parse(document.getElementById('deck-config').textContent);
+      let activeIndex = 0;
+
+      root.dataset.aspect = config.aspect;
+      root.dataset.features = config.features.join(' ');
+
+      function fitStage() {
+        const availableWidth = Math.max(1, viewport.clientWidth - 48);
+        const availableHeight = Math.max(1, viewport.clientHeight - 112);
+        const scale = Math.min(availableWidth / 1600, availableHeight / 900, 1);
+        root.style.setProperty('--stage-scale', String(scale));
+        root.style.setProperty('--stage-shell-width', `${1600 * scale}px`);
+        root.style.setProperty('--stage-shell-height', `${900 * scale}px`);
+      }
+
+      function resolveIndex(target) {
+        if (Number.isInteger(target)) return Math.max(0, Math.min(slides.length - 1, target));
+        if (typeof target !== 'string') return activeIndex;
+        const token = target.replace(/^#/, '');
+        if (/^\d+$/.test(token)) {
+          const number = Number.parseInt(token, 10) - 1;
+          return number >= 0 && number < slides.length ? number : activeIndex;
+        }
+        const byId = slides.findIndex((slide) => slide.id === token);
+        return byId >= 0 ? byId : activeIndex;
+      }
+
+      function hashIndex() {
+        if (!location.hash) return 0;
+        let token = location.hash.slice(1);
+        try { token = decodeURIComponent(token); } catch (_error) { return 0; }
+        return resolveIndex(token);
+      }
+
+      function show(target, options = {}) {
+        const nextIndex = resolveIndex(target);
+        const focusHeading = options.focus === true;
+        const updateHash = options.updateHash !== false;
+        activeIndex = nextIndex;
+
+        slides.forEach((slide, index) => {
+          const active = index === activeIndex;
+          slide.classList.toggle('is-active', active);
+          slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+          if (active) slide.removeAttribute('inert');
+          else slide.setAttribute('inert', '');
+        });
+
+        counter.textContent = `${activeIndex + 1} / ${slides.length}`;
+        previousButton.disabled = activeIndex === 0;
+        nextButton.disabled = activeIndex === slides.length - 1;
+        const activeSlide = slides[activeIndex];
+        document.title = `${activeSlide.dataset.title} · ${config.title}`;
+
+        if (updateHash) {
+          const nextHash = `#${encodeURIComponent(activeSlide.id)}`;
+          if (location.hash !== nextHash) history.replaceState(null, '', nextHash);
+        }
+        if (focusHeading) {
+          const heading = activeSlide.querySelector('h1, h2');
+          requestAnimationFrame(() => heading?.focus({ preventScroll: true }));
+        }
+        return activeIndex;
+      }
+
+      function move(delta, focus = false) {
+        return show(activeIndex + delta, { focus });
+      }
+
+      previousButton.addEventListener('click', () => move(-1));
+      nextButton.addEventListener('click', () => move(1));
+
+      document.addEventListener('keydown', (event) => {
+        if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
+        if (event.target instanceof HTMLElement && event.target.closest('button, input, textarea, select, a[href]')) return;
+        let target = null;
+        if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') target = activeIndex + 1;
+        if (event.key === 'ArrowLeft' || event.key === 'PageUp') target = activeIndex - 1;
+        if (event.key === 'Home') target = 0;
+        if (event.key === 'End') target = slides.length - 1;
+        if (target === null) return;
+        event.preventDefault();
+        show(target, { focus: true });
+      });
+
+      window.addEventListener('hashchange', () => show(hashIndex(), { updateHash: false }));
+      window.addEventListener('resize', fitStage, { passive: true });
+
+      window.WowDeck = Object.freeze({
+        show: (target) => show(target),
+        next: () => move(1),
+        previous: () => move(-1),
+      });
+
+      fitStage();
+      show(hashIndex());
+      requestAnimationFrame(() => { root.dataset.ready = 'true'; });
+      document.fonts?.ready.then(fitStage);
+    })();
+  </script>
+</body>
+</html>
