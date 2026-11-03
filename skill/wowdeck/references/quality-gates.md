@@ -41,13 +41,15 @@ Bind each derivative by its own exact path or URL and hash together with the sou
 ## Gate 4 — Visual, accessibility, and reduced motion
 
 - Visual choices derive from the Strategy Note and dependency graph rather than an unrelated template.
+- The visual contract and `deck-config` declare one deck-wide `light` or `dark` canvas mode; every slide background stays within that mode, including cover, dividers, media pages, and ending.
+- No full-slide light/dark inversion is used for pacing or emphasis. Local cards, screenshots, media frames, overlays, and dialogs may contrast without becoming an alternate page theme.
 - Logical size, responsive behavior, safe regions, type, contrast, and density work in the actual target conditions.
 - Reading order, keyboard focus, alternative text, status cues, and interactive names are usable.
 - Source evidence remains distinguishable from explanation or decoration when needed.
 - Emphasis has semantic purpose; ordinary and focal states are visibly different when rhythm matters.
 - Reduced-motion mode preserves all content, hierarchy, state, and reachability without waiting for animation completion.
 
-Inspect representative rendered screens. Source review alone cannot pass this gate.
+Inspect an all-slide contact sheet or equivalent full-slide rendered gallery for canvas continuity, then inspect representative screens in detail. A computed-style inventory is insufficient because full-screen descendants, pseudo-elements, gradients, and media can change the perceived canvas. Source review alone cannot pass this gate.
 
 ## Gate 5 — Runtime composition
 
@@ -70,12 +72,12 @@ python3 scripts/validate_deck.py path/to/index.html --check-receipt validation-r
 Interpret the receipt status precisely:
 
 - `PASS_SOURCE_BOUND`: `deck-dependencies.json` is valid and the accepted artifact is bound to its declared authoring/runtime dependency closure.
-- `PASS_RENDERED_ARTIFACT`: a current v1 HTML artifact passed, but no reproducible dependency package was proven.
-- `PASS_LEGACY_ARTIFACT_ONLY`: a legacy deck passed compatibility checks without the v1 source contract.
+- `PASS_RENDERED_ARTIFACT`: a current configured HTML artifact passed, but no reproducible dependency package was proven.
+- `PASS_LEGACY_ARTIFACT_ONLY`: a legacy deck passed compatibility checks without the current configuration contract.
 
 Do not shorten the last two statuses to an unqualified “source verified.”
 
-The validator must reject unresolved `WOWDECK_PLACEHOLDER` markers, missing or escaping relative assets, private or absolute paths, remote runtime dependencies, undeclared detectable dynamic dependencies, invalid feature contracts, media/manifest mismatches, and unreadable declared media. Structural acceptance is necessary but does not replace rendered browser acceptance.
+The validator must reject unresolved `WOWDECK_PLACEHOLDER` markers, missing or escaping relative assets, private or absolute paths, remote runtime dependencies, undeclared detectable dynamic dependencies, invalid feature contracts, declared slide/background-mode conflicts, media/manifest mismatches, and unreadable declared media. Its background check proves declaration consistency only. Any perceived full-slide polarity switch in the rendered all-slide gallery fails Gate 4 even when structural validation passes; structural acceptance does not replace browser acceptance.
 
 ## Gate 6 — Staged media acceptance
 

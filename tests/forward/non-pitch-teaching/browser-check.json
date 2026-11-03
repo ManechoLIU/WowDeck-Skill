@@ -1,24 +1,34 @@
 {
   "schema_version": 1,
   "status": "PASS",
-  "generated_at": "2026-10-28T12:08:15.273Z",
+  "generated_at": "2026-11-03T10:12:15.761Z",
   "artifact": {
     "path": "index.html",
-    "index_sha256": "ce057f74f823b30679ed7407fbb470630ffe244b69be5d85256b9da76e9bfeaa",
-    "artifact_sha256": "f454e1d5debd5cdc1b29c483b815a0803bc455e19b04e7d24436a6128f6b67d4",
-    "source_revision": "b7d7e80e1fead9814ab69bc94deed4c9921407bedf5dc3a3342120b8a271570e",
-    "builder_revision": "bff2f8a68d9bdb881bc6e9f6d075d139214fcf6bcab55a8602b55ab6fd801366",
-    "source_sha256": "5875441a1fd2c31d2f7b7e8398ec021c30bf4dd3cb0096781b94018eddb4bba6",
-    "variant": "non-pitch-teaching"
+    "index_sha256": "cf5fd45cca08e56ac9ca0af0c6a4b20505a0f53da4ace64243c67f7b3727100d",
+    "artifact_sha256": "c0a2841d25b7fdd5696626e8f72d86ac1c39a45b950dcb537b1049c7cfd8b601",
+    "source_revision": "845c1fc690affe1fa1efc3121fc785fc118c8bd705b6280f9d21006c289b276f",
+    "builder_revision": "a8c8b57cbeb3bfbe3dea6669d198fadfef11d10a4167dae691250595f2a62023",
+    "source_sha256": "31891b498b306c546bc0f7363e5660ffd75ab9c64bee41be2267aa37555fbf78",
+    "variant": "non-pitch-teaching",
+    "background_mode": "light"
   },
   "browser": {
-    "name": "Chrome/156.0.8078.48",
+    "name": "HeadlessChrome/151.0.7922.34",
     "protocol_version": "1.3",
-    "mode": "headless-new"
+    "mode": "headless"
+  },
+  "runner": {
+    "path": "browser-check.cjs",
+    "sha256": "460493883dd0067eb876b1b40529a3ae3604e7972bda2910015959c47a49f4c9"
   },
   "target": {
     "transport": "loopback HTTP",
     "stage": "16:9"
+  },
+  "contact_sheet": {
+    "path": "contact-sheet.png",
+    "sha256": "55152ed64452e369bde205d2aaa8af60341b40bc856525ccee3ff4946b9e39e9",
+    "slide_count": 7
   },
   "assertions": {
     "seven_slides": true,
@@ -27,6 +37,8 @@
     "no_layout_overflow": true,
     "no_console_errors": true,
     "reduced_motion_preserves_meaning": true,
+    "background_mode_consistent": true,
+    "contact_sheet_generated": true,
     "artifact_matches_receipt": true
   },
   "console_errors": [],
@@ -60,6 +72,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -83,6 +103,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -106,6 +134,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -129,6 +165,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -152,6 +196,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -175,6 +227,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -198,6 +258,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         }
       ],
@@ -207,7 +275,8 @@
           {
             "action": "initial",
             "id": "start-in-the-middle",
-            "hash": "#start-in-the-middle"
+            "hash": "#start-in-the-middle",
+            "focus": "body"
           },
           {
             "action": "ArrowRight",
@@ -218,47 +287,56 @@
           {
             "action": "PageDown",
             "id": "step-one",
-            "hash": "#step-one"
+            "hash": "#step-one",
+            "focus": "h1"
           },
           {
             "action": "End",
             "id": "practice-answer",
-            "hash": "#practice-answer"
+            "hash": "#practice-answer",
+            "focus": "h1"
           },
           {
             "action": "Home",
             "id": "start-in-the-middle",
-            "hash": "#start-in-the-middle"
+            "hash": "#start-in-the-middle",
+            "focus": "h1"
           },
           {
             "action": "Space",
             "id": "order-makes-it-safe",
-            "hash": "#order-makes-it-safe"
+            "hash": "#order-makes-it-safe",
+            "focus": "h1"
           },
           {
             "action": "ArrowLeft",
             "id": "start-in-the-middle",
-            "hash": "#start-in-the-middle"
+            "hash": "#start-in-the-middle",
+            "focus": "h1"
           },
           {
             "action": "next button",
             "id": "order-makes-it-safe",
-            "hash": "#order-makes-it-safe"
+            "hash": "#order-makes-it-safe",
+            "focus": "button"
           },
           {
             "action": "previous button",
             "id": "start-in-the-middle",
-            "hash": "#start-in-the-middle"
+            "hash": "#start-in-the-middle",
+            "focus": "body"
           },
           {
             "action": "hash id",
             "id": "practice-58",
-            "hash": "#practice-58"
+            "hash": "#practice-58",
+            "focus": "body"
           },
           {
             "action": "hash number",
             "id": "step-one",
-            "hash": "#3"
+            "hash": "#3",
+            "focus": "body"
           }
         ]
       },
@@ -293,6 +371,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -316,6 +402,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -339,6 +433,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -362,6 +464,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -385,6 +495,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -408,6 +526,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -431,6 +557,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         }
       ],
@@ -449,12 +583,6 @@
         "height": 900
       },
       "reduced_motion": true,
-      "state": {
-        "media_matches": true,
-        "all_reveals_visible": true,
-        "all_reveal_animations_disabled": true,
-        "active_id": "order-makes-it-safe"
-      },
       "pages": [
         {
           "active_id": "start-in-the-middle",
@@ -477,6 +605,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -500,6 +636,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -523,6 +667,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -546,6 +698,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -569,6 +729,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -592,6 +760,14 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         },
         {
@@ -615,9 +791,23 @@
           "slide_overflow": false,
           "overflow_elements": [],
           "state_synchronized": true,
+          "background": {
+            "declared_mode": "light",
+            "rendered_mode": "light",
+            "stage_canvas": "linear-gradient(90deg, rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(rgba(24, 43, 49, 0.03) 1px, rgba(0, 0, 0, 0) 1px), none|rgb(248, 244, 233)",
+            "slide_canvas": "none|rgba(0, 0, 0, 0)",
+            "slide_canvas_transparent": true,
+            "pass": true
+          },
           "pass": true
         }
       ],
+      "state": {
+        "media_matches": true,
+        "all_reveals_visible": true,
+        "all_reveal_animations_disabled": true,
+        "pass": true
+      },
       "pass": true
     }
   ]

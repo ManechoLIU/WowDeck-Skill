@@ -13,6 +13,7 @@ from pathlib import Path
 HEX_COLOR = re.compile(r"^#[0-9a-fA-F]{6}$")
 LANG_TAG = re.compile(r"^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$")
 ALLOWED_FEATURES = ("navigation", "presenter", "media", "dialog")
+BACKGROUND_MODES = ("light", "dark")
 ASPECTS = {
     "16:9": (16, 9),
     "4:3": (4, 3),
@@ -27,6 +28,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lang", default="en", help="BCP 47-style document language tag")
     parser.add_argument("--accent", default="#56D9B0", help="Six-digit CSS hex color")
     parser.add_argument("--aspect", choices=tuple(ASPECTS), default="16:9")
+    parser.add_argument(
+        "--background-mode",
+        choices=BACKGROUND_MODES,
+        default="light",
+        help="One canvas mode shared by every slide (default: light)",
+    )
     parser.add_argument(
         "--features",
         nargs="+",
@@ -119,8 +126,9 @@ def main() -> int:
 
     width, height = ASPECTS[args.aspect]
     config = {
-        "version": 1,
+        "version": 2,
         "aspect": args.aspect,
+        "background_mode": args.background_mode,
         "features": features,
         "title": args.title,
     }
@@ -129,6 +137,7 @@ def main() -> int:
         "{{DECK_TITLE_HTML}}": html.escape(args.title, quote=True),
         "{{DECK_SUBTITLE_HTML}}": html.escape(args.subtitle, quote=True),
         "{{DECK_LANG}}": html.escape(args.lang, quote=True),
+        "{{BACKGROUND_MODE}}": args.background_mode,
         "{{DECK_TITLE_JSON}}": html_safe_json(args.title),
         "{{ACCENT_CSS}}": args.accent,
         "{{ACCENT_RGB}}": ", ".join(
@@ -169,6 +178,7 @@ def main() -> int:
         print(f"{'Created' if manifest_created else 'Kept'} {manifest_path}")
 
     print(f"Aspect: {args.aspect}")
+    print(f"Background mode: {args.background_mode}")
     print(f"Features: {', '.join(features) if features else 'core only'}")
     print("Next: replace every WOWDECK_PLACEHOLDER, then run validate_deck.py")
     return 0

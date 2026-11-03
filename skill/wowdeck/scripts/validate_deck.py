@@ -18,6 +18,8 @@ from urllib.parse import unquote, urlsplit
 
 ALLOWED_FEATURES = ("navigation", "presenter", "media", "dialog")
 ALLOWED_ASPECTS = {"16:9", "4:3"}
+ALLOWED_BACKGROUND_MODES = {"light", "dark"}
+ALLOWED_CONFIG_VERSIONS = {1, 2}
 NON_FILE_SCHEMES = {"data", "blob", "mailto", "tel"}
 VIDEO_SUFFIXES = {".mp4", ".mov", ".m4v", ".webm"}
 AUDIO_SUFFIXES = {".m4a", ".mp3", ".wav", ".aac", ".ogg"}
@@ -56,12 +58,14 @@ class DeckParser(HTMLParser):
         self.has_stage = False
         self.dialogs = 0
         self.html_lang: str | None = None
+        self.background_mode: str | None = None
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         data = {key: value or "" for key, value in attrs}
         classes = set(data.get("class", "").split())
         if tag == "html":
             self.html_lang = data.get("lang", "").strip()
+            self.background_mode = data.get("data-background-mode", "").strip() or None
         element_id = data.get("id")
         if element_id:
             self.ids.append(element_id)
@@ -74,6 +78,8 @@ class DeckParser(HTMLParser):
                 "active": bool({"active", "is-active"} & classes),
                 "aria_hidden": data.get("aria-hidden"),
                 "inert": "inert" in data,
+                "background_mode_present": "data-background-mode" in data,
+                "background_mode": data.get("data-background-mode", "").strip() or None,
                 "headings": 0,
                 "notes": [],
             }
@@ -439,8 +445,25 @@ def parse_config(
     if not isinstance(config, dict):
         errors.append("#deck-config must contain a JSON object")
         return {"version": None, "aspect": None, "features": [], "title": None}, False
+    version = config.get("version")
+    if type(version) is not int or version not in ALLOWED_CONFIG_VERSIONS:
+        errors.append("#deck-config version must be 1 or 2")
     if config.get("aspect") not in ALLOWED_ASPECTS:
         errors.append("#deck-config aspect must be '16:9' or '4:3'")
+    background_mode = config.get("background_mode")
+    if background_mode is None:
+        if version == 2:
+            errors.append("#deck-config background_mode is required in version 2")
+        elif version == 1:
+            warnings.append(
+                "compatibility input: #deck-config version 1 has no background_mode; "
+                "the deck-wide canvas mode is unverified"
+            )
+    elif (
+        not isinstance(background_mode, str)
+        or background_mode not in ALLOWED_BACKGROUND_MODES
+    ):
+        errors.append("#deck-config background_mode must be 'light' or 'dark'")
     raw_features = config.get("features")
     features: list[str] = []
     if not isinstance(raw_features, list) or not all(isinstance(item, str) for item in raw_features):
@@ -708,6 +731,7 @@ def validate(path: Path, check_receipt: Path | None = None) -> dict:
     inferred_notes_count = inline_notes_count or legacy_notes_count
     config, legacy = parse_config(text, parser, inferred_notes_count, errors, warnings)
     features = config.get("features", [])
+    background_mode = config.get("background_mode")
 
     if not parser.html_lang:
         if legacy:
@@ -722,6 +746,50 @@ def validate(path: Path, check_receipt: Path | None = None) -> dict:
     duplicates = sorted({item for item in parser.ids if parser.ids.count(item) > 1})
     if duplicates:
         errors.append(f"duplicate element IDs: {', '.join(duplicates)}")
+
+    config_background_mode = (
+        background_mode
+        if isinstance(background_mode, str)
+        and background_mode in ALLOWED_BACKGROUND_MODES
+        else None
+    )
+    root_background_mode = (
+        parser.background_mode
+        if parser.background_mode in ALLOWED_BACKGROUND_MODES
+        else None
+    )
+    if parser.background_mode and root_background_mode is None:
+        errors.append("<html> data-background-mode must be 'light' or 'dark'")
+
+    if (
+        isinstance(background_mode, str)
+        and background_mode in ALLOWED_BACKGROUND_MODES
+    ):
+        if parser.background_mode != background_mode:
+            actual = parser.background_mode or "missing"
+            errors.append(
+                "<html> data-background-mode must match #deck-config background_mode; "
+                f"expected {background_mode!r}, found {actual!r}"
+            )
+    effective_background_mode = config_background_mode or root_background_mode
+    for number, slide in enumerate(parser.slides, start=1):
+        declared_mode = slide.get("background_mode")
+        if (
+            slide.get("background_mode_present")
+            and declared_mode not in ALLOWED_BACKGROUND_MODES
+        ):
+            errors.append(
+                f"slide {number} data-background-mode must be 'light' or 'dark'"
+            )
+        elif (
+            declared_mode
+            and effective_background_mode
+            and declared_mode != effective_background_mode
+        ):
+            errors.append(
+                f"slide {number} declares opposite background mode {declared_mode!r}; "
+                f"the deck-wide mode is {effective_background_mode!r}"
+            )
 
     slide_ids: list[str] = []
     for number, slide in enumerate(parser.slides, start=1):
@@ -804,7 +872,7 @@ def validate(path: Path, check_receipt: Path | None = None) -> dict:
                 errors.append("presenter data-notes elements must be nested inside their slide")
             if not legacy and legacy_notes_count is not None:
                 warnings.append(
-                    "#deck-notes is legacy metadata; v1 presenter validation uses inline data-notes"
+                    "#deck-notes is legacy metadata; configured presenter validation uses inline data-notes"
                 )
     elif inferred_notes_count is not None and inferred_notes_count != len(parser.slides):
         warnings.append(
@@ -1103,6 +1171,7 @@ def validate(path: Path, check_receipt: Path | None = None) -> dict:
             "legacy_config": legacy,
             "config": config,
             "features": features,
+            "background_mode": background_mode,
             "source_revision": effective_source_revision,
             "builder_revision": effective_builder_revision,
             "variant": dependency_fact.get("variant"),
@@ -1165,6 +1234,7 @@ def receipt_payload(result: dict) -> dict:
         "slide_count": facts["slide_count"],
         "manifest_sha256": facts["manifest_sha256"],
         "features": facts["features"],
+        "background_mode": facts.get("background_mode"),
         "source_revision": facts.get("source_revision"),
         "builder_revision": facts.get("builder_revision"),
         "variant": facts.get("variant"),

@@ -5,6 +5,7 @@ import json
 import os
 import re
 import shutil
+import struct
 import subprocess
 import sys
 import tempfile
@@ -58,6 +59,13 @@ def deck_config_payload(index_path: Path) -> str:
 
 def deck_config(index_path: Path) -> dict:
     return json.loads(deck_config_payload(index_path))
+
+
+def replace_deck_config(index_path: Path, config: dict) -> None:
+    text = index_path.read_text(encoding="utf-8")
+    old_payload = deck_config_payload(index_path)
+    new_payload = json.dumps(config, ensure_ascii=False, separators=(",", ":"))
+    index_path.write_text(text.replace(old_payload, new_payload, 1), encoding="utf-8")
 
 
 class WowDeckCliTests(unittest.TestCase):
@@ -268,6 +276,239 @@ class WowDeckCliTests(unittest.TestCase):
             self.assertNotEqual(completed.returncode, 0, output_of(completed))
             self.assertIn("refusing to overwrite", completed.stderr + completed.stdout)
             self.assertEqual(index_path.read_text(encoding="utf-8"), "owned existing content\n")
+
+    def test_init_declares_and_validates_one_deck_wide_background_mode(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            deck_dir = Path(temporary) / "deck"
+            completed = run_cli(
+                INIT_DECK,
+                deck_dir,
+                "--title", "Dark canvas deck",
+                "--background-mode", "dark",
+                "--features", "none",
+            )
+            self.assertEqual(completed.returncode, 0, output_of(completed))
+            index_path = deck_dir / "index.html"
+            self.complete_starter(index_path)
+
+            result = self.assert_validation_passes(index_path)
+
+            self.assertEqual(deck_config(index_path)["background_mode"], "dark")
+            self.assertEqual(result["facts"]["background_mode"], "dark")
+
+    def test_validator_rejects_root_or_slide_background_mode_conflicts(self) -> None:
+        cases = (
+            (
+                "root",
+                lambda text: text.replace(
+                    'data-background-mode="light"',
+                    'data-background-mode="dark"',
+                    1,
+                ),
+                "must match #deck-config background_mode",
+            ),
+            (
+                "slide-attribute",
+                lambda text: text.replace(
+                    'class="slide" id="slide-2"',
+                    'class="slide" data-background-mode="dark" id="slide-2"',
+                    1,
+                ),
+                "declares opposite background mode",
+            ),
+            (
+                "slide-invalid-attribute",
+                lambda text: text.replace(
+                    'class="slide" id="slide-2"',
+                    'class="slide" data-background-mode="sepia" id="slide-2"',
+                    1,
+                ),
+                "data-background-mode must be 'light' or 'dark'",
+            ),
+            (
+                "slide-empty-attribute",
+                lambda text: text.replace(
+                    'class="slide" id="slide-2"',
+                    'class="slide" data-background-mode="  " id="slide-2"',
+                    1,
+                ),
+                "data-background-mode must be 'light' or 'dark'",
+            ),
+        )
+        for label, mutate, expected in cases:
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as temporary:
+                index_path = self.init_deck(Path(temporary) / "deck")
+                self.complete_starter(index_path)
+                self.add_hidden_slide(index_path)
+                original = index_path.read_text(encoding="utf-8")
+                changed = mutate(original)
+                self.assertNotEqual(changed, original)
+                index_path.write_text(changed, encoding="utf-8")
+                self.assert_validation_fails(index_path, expected)
+
+    def test_validator_enforces_v2_background_mode_and_handles_invalid_json_types(self) -> None:
+        cases = (
+            ("missing", None, "background_mode is required in version 2"),
+            ("array", [], "background_mode must be 'light' or 'dark'"),
+            ("object", {}, "background_mode must be 'light' or 'dark'"),
+            ("invalid-string", "sepia", "background_mode must be 'light' or 'dark'"),
+        )
+        for label, value, expected in cases:
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as temporary:
+                index_path = self.init_deck(Path(temporary) / "deck")
+                self.complete_starter(index_path)
+                config = deck_config(index_path)
+                if value is None:
+                    config.pop("background_mode")
+                else:
+                    config["background_mode"] = value
+                replace_deck_config(index_path, config)
+                self.assert_validation_fails(index_path, expected)
+
+    def test_validator_rejects_invalid_config_versions_without_crashing(self) -> None:
+        cases = (None, [], {}, True, "2", 3)
+        for value in cases:
+            with self.subTest(value=value), tempfile.TemporaryDirectory() as temporary:
+                index_path = self.init_deck(Path(temporary) / "deck")
+                self.complete_starter(index_path)
+                config = deck_config(index_path)
+                config["version"] = value
+                replace_deck_config(index_path, config)
+                self.assert_validation_fails(
+                    index_path,
+                    "#deck-config version must be 1 or 2",
+                )
+
+    def test_v1_background_mode_compatibility_and_explicit_conflicts(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            index_path = self.init_deck(Path(temporary) / "deck")
+            self.complete_starter(index_path)
+            config = deck_config(index_path)
+            config["version"] = 1
+            replace_deck_config(index_path, config)
+            self.assert_validation_passes(index_path)
+
+            config.pop("background_mode")
+            replace_deck_config(index_path, config)
+
+            result = self.assert_validation_passes(index_path)
+            self.assertIn("compatibility input", "\n".join(result["warnings"]))
+
+            text = index_path.read_text(encoding="utf-8")
+            text = text.replace(
+                'class="slide is-active"',
+                'class="slide is-active" data-background-mode="dark"',
+                1,
+            )
+            index_path.write_text(text, encoding="utf-8")
+            self.assert_validation_fails(
+                index_path,
+                "declares opposite background mode",
+            )
+
+            text = index_path.read_text(encoding="utf-8").replace(
+                ' data-background-mode="dark"',
+                "",
+                1,
+            )
+            index_path.write_text(text, encoding="utf-8")
+            config["background_mode"] = "dark"
+            replace_deck_config(index_path, config)
+            self.assert_validation_fails(
+                index_path,
+                "must match #deck-config background_mode",
+            )
+
+    def test_local_surface_classes_do_not_count_as_slide_background_switches(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            index_path = self.init_deck(Path(temporary) / "deck")
+            self.complete_starter(index_path)
+            text = index_path.read_text(encoding="utf-8")
+            marker = '<footer class="slide-footer">'
+            local_surfaces = (
+                '<article class="card bg-dark">Local dark card</article>'
+                '<figure class="media theme-dark">Local media surface</figure>'
+                '<dialog class="background-dark">Local dialog surface</dialog>'
+            )
+            self.assertIn(marker, text)
+            index_path.write_text(
+                text.replace(marker, f"{local_surfaces}\n          {marker}", 1),
+                encoding="utf-8",
+            )
+
+            self.assert_validation_passes(index_path)
+
+    def test_forward_browser_evidence_matches_the_current_artifact(self) -> None:
+        fixture = REPO_ROOT / "tests" / "forward" / "non-pitch-teaching"
+        receipt = json.loads(
+            (fixture / "validation-receipt.json").read_text(encoding="utf-8")
+        )
+        browser_check = json.loads(
+            (fixture / "browser-check.json").read_text(encoding="utf-8")
+        )
+        contact_sheet = fixture / browser_check["contact_sheet"]["path"]
+        index_path = fixture / "index.html"
+        receipt_path = fixture / "validation-receipt.json"
+
+        self.assertEqual(browser_check["status"], "PASS")
+        self.assertEqual(receipt["index_sha256"], sha256(index_path))
+        completed, validation = self.validate_json(
+            index_path,
+            check_receipt=receipt_path,
+        )
+        self.assertEqual(completed.returncode, 0, output_of(completed))
+        self.assertTrue(validation["ok"], validation)
+        self.assertEqual(validation["facts"]["receipt_status"], "current")
+        self.assertEqual(
+            browser_check["artifact"]["index_sha256"],
+            receipt["index_sha256"],
+        )
+        self.assertEqual(
+            browser_check["artifact"]["artifact_sha256"],
+            receipt["artifact_sha256"],
+        )
+        for field in (
+            "source_revision",
+            "builder_revision",
+            "source_sha256",
+            "variant",
+            "background_mode",
+        ):
+            self.assertEqual(browser_check["artifact"][field], receipt[field])
+        self.assertTrue(browser_check["assertions"]["artifact_matches_receipt"])
+        self.assertTrue(browser_check["assertions"]["background_mode_consistent"])
+        self.assertTrue(browser_check["assertions"]["contact_sheet_generated"])
+        self.assertTrue(all(browser_check["assertions"].values()))
+        self.assertEqual(browser_check["console_errors"], [])
+        self.assertEqual(
+            [
+                (check["profile"], len(check["pages"]), check["pass"])
+                for check in browser_check["checks"]
+            ],
+            [
+                ("standard", 7, True),
+                ("small", 7, True),
+                ("reduced-motion", 7, True),
+            ],
+        )
+        self.assertTrue(
+            all(
+                page["pass"]
+                for check in browser_check["checks"]
+                for page in check["pages"]
+            )
+        )
+        self.assertEqual(browser_check["contact_sheet"]["slide_count"], 7)
+        runner = fixture / browser_check["runner"]["path"]
+        self.assertTrue(runner.is_file())
+        self.assertEqual(browser_check["runner"]["sha256"], sha256(runner))
+        self.assertTrue(contact_sheet.is_file())
+        self.assertEqual(browser_check["contact_sheet"]["sha256"], sha256(contact_sheet))
+        png = contact_sheet.read_bytes()
+        self.assertEqual(png[:8], b"\x89PNG\r\n\x1a\n")
+        width, height = struct.unpack(">II", png[16:24])
+        self.assertEqual(width, 1600)
+        self.assertGreater(height, 900)
 
     def test_core_only_init_resolves_template_tokens_but_keeps_completion_marker(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

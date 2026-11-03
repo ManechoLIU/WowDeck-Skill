@@ -113,6 +113,31 @@ async function text(page, selector) {
           .getPropertyValue('--stage-width').trim()),
         expectedWidth,
       );
+    } else if (scenario === 'background-mode') {
+      assert.equal(await page.evaluate(() => window.WowDeck.config.background_mode), expectedAspect);
+      assert.equal(
+        await page.evaluate(() => document.documentElement.dataset.backgroundMode),
+        expectedAspect,
+      );
+      const tokens = await page.evaluate(async () => {
+        const root = document.documentElement;
+        const readTokens = () => {
+          const style = getComputedStyle(root);
+          return [
+            root.dataset.backgroundMode,
+            style.getPropertyValue('--slide-bg').trim(),
+            style.getPropertyValue('--ink').trim(),
+          ];
+        };
+        const before = readTokens();
+        window.WowDeck.next();
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        const after = readTokens();
+        return [before, after];
+      });
+      assert.ok(tokens[0][1]);
+      assert.ok(tokens[0][2]);
+      assert.deepEqual(tokens[0], tokens[1]);
     } else if (scenario === 'navigation') {
       assert.equal(await page.evaluate(() => window.WowDeck.currentIndex()), 0);
       assert.equal(await page.locator('#presenter-controls').getAttribute('hidden'), '');
@@ -198,6 +223,7 @@ class PresenterRuntimeBrowserTests(unittest.TestCase):
         slides: tuple[tuple[str, str | None, int], ...],
         lang: str = "en",
         aspect: str = "16:9",
+        background_mode: str = "light",
     ) -> Path:
         deck_dir = root / "deck"
         feature_args = features or ("none",)
@@ -212,6 +238,8 @@ class PresenterRuntimeBrowserTests(unittest.TestCase):
                 lang,
                 "--aspect",
                 aspect,
+                "--background-mode",
+                background_mode,
                 "--features",
                 *feature_args,
             ],
@@ -334,6 +362,16 @@ class PresenterRuntimeBrowserTests(unittest.TestCase):
             )
             self.run_browser(index_path, "aspect", "16:9")
             self.run_browser(index_path, "navigation")
+
+    def test_deck_wide_background_mode_stays_constant_across_navigation(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            index_path = self.create_deck(
+                Path(temporary),
+                features=("navigation",),
+                slides=(("Alpha", None, 0), ("Beta", None, 0)),
+                background_mode="dark",
+            )
+            self.run_browser(index_path, "background-mode", "dark")
 
     def test_navigation_focus_depends_on_the_input_path(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

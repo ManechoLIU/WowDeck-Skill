@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{DECK_LANG}}" data-aspect="{{ASPECT}}">
+<html lang="{{DECK_LANG}}" data-aspect="{{ASPECT}}" data-background-mode="{{BACKGROUND_MODE}}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,8 +7,9 @@
   <meta name="wowdeck-accent" content="{{ACCENT_CSS}}">
   <script id="deck-config" type="application/json">
     {
-      "version": 1,
+      "version": 2,
       "aspect": "16:9",
+      "background_mode": "light",
       "features": ["navigation"],
       "title": "WOWDECK_PLACEHOLDER"
     }
@@ -35,8 +36,22 @@
       --focus: #0b74c7;
       --panel-bg: #ffffff;
       --overlay-bg: rgb(10 12 14 / 72%);
+      --surface-subtle: rgb(0 0 0 / 4%);
       --radius: 18px;
       --ease: cubic-bezier(.22, .72, .24, 1);
+    }
+
+    :root[data-background-mode="dark"] {
+      --page-bg: #080b0e;
+      --slide-bg: #14181d;
+      --ink: #f4f6f7;
+      --muted: #b7bec4;
+      --line: #3b444c;
+      --accent: #79d9b0;
+      --focus: #6fc3ff;
+      --panel-bg: #1c2228;
+      --overlay-bg: rgb(0 0 0 / 76%);
+      --surface-subtle: rgb(255 255 255 / 5%);
     }
 
     :root[data-aspect="16:9"] {
@@ -383,7 +398,7 @@
       border: 1px solid var(--line);
       border-radius: 12px;
       color: var(--muted);
-      background: rgb(0 0 0 / 4%);
+      background: var(--surface-subtle);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -519,8 +534,9 @@
 
       const ALLOWED_FEATURES = Object.freeze(['navigation', 'presenter', 'media', 'dialog']);
       const DEFAULT_CONFIG = Object.freeze({
-        version: 1,
+        version: 2,
         aspect: '16:9',
+        background_mode: 'light',
         features: Object.freeze(['navigation']),
         title: 'Untitled presentation'
       });
@@ -618,6 +634,7 @@
             ? raw.version
             : DEFAULT_CONFIG.version,
           aspect: raw.aspect === '4:3' ? '4:3' : '16:9',
+          background_mode: raw.background_mode === 'dark' ? 'dark' : 'light',
           features: Object.freeze(features),
           title: typeof raw.title === 'string' && raw.title.trim()
             ? raw.title.trim()
@@ -631,6 +648,7 @@
       const accent = document.querySelector('meta[name="wowdeck-accent"]')?.content || '';
 
       root.dataset.aspect = config.aspect;
+      root.dataset.backgroundMode = config.background_mode;
       root.dataset.features = config.features.join(' ');
       if (/^#[0-9a-f]{6}$/i.test(accent)) root.style.setProperty('--accent', accent);
       document.title = config.title;

@@ -238,14 +238,20 @@ def render_document(content: dict[str, Any]) -> str:
         raise ValueError("this forward fixture must contain 5–7 slides")
     if content["features"] != ["navigation"]:
         raise ValueError("this forward fixture enables navigation only")
+    if (
+        not isinstance(content["background_mode"], str)
+        or content["background_mode"] not in {"light", "dark"}
+    ):
+        raise ValueError("this forward fixture must declare one background mode")
     slide_ids = [slide["id"] for slide in slides_data]
     if len(slide_ids) != len(set(slide_ids)):
         raise ValueError("slide ids must be unique")
 
     config = {
-        "version": 1,
+        "version": 2,
         "title": content["title"],
         "aspect": content["aspect"],
+        "background_mode": content["background_mode"],
         "features": content["features"],
         "source_revision": sha256(CONTENT_PATH),
         "builder_revision": sha256(Path(__file__)),
@@ -263,6 +269,7 @@ def render_document(content: dict[str, Any]) -> str:
     document = HTML_TEMPLATE
     replacements = {
         "@@LANG@@": escape(content["lang"]),
+        "@@BACKGROUND_MODE@@": escape(content["background_mode"]),
         "@@TITLE@@": escape(content["title"]),
         "@@SUBTITLE@@": escape(content["subtitle"]),
         "@@CONFIG@@": json_for_script(config),
@@ -306,7 +313,7 @@ def write_dependency_manifest(content: dict[str, Any]) -> dict[str, Any]:
 
 
 HTML_TEMPLATE = r'''<!doctype html>
-<html lang="@@LANG@@" data-aspect="16:9">
+<html lang="@@LANG@@" data-aspect="16:9" data-background-mode="@@BACKGROUND_MODE@@">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -983,6 +990,7 @@ HTML_TEMPLATE = r'''<!doctype html>
       let activeIndex = 0;
 
       root.dataset.aspect = config.aspect;
+      root.dataset.backgroundMode = config.background_mode;
       root.dataset.features = config.features.join(' ');
 
       function fitStage() {

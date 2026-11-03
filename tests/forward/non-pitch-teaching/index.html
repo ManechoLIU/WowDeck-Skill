@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-aspect="16:9">
+<html lang="zh-CN" data-aspect="16:9" data-background-mode="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +7,7 @@
   <meta name="description" content="给没有算法基础的成人学习者">
   <link rel="icon" href="data:,">
   <title>二分查找为什么每一步能排除一半</title>
-  <script id="deck-config" type="application/json">{"version":1,"title":"二分查找为什么每一步能排除一半","aspect":"16:9","features":["navigation"],"source_revision":"b7d7e80e1fead9814ab69bc94deed4c9921407bedf5dc3a3342120b8a271570e","builder_revision":"bff2f8a68d9bdb881bc6e9f6d075d139214fcf6bcab55a8602b55ab6fd801366"}</script>
+  <script id="deck-config" type="application/json">{"version":2,"title":"二分查找为什么每一步能排除一半","aspect":"16:9","background_mode":"light","features":["navigation"],"source_revision":"845c1fc690affe1fa1efc3121fc785fc118c8bd705b6280f9d21006c289b276f","builder_revision":"a8c8b57cbeb3bfbe3dea6669d198fadfef11d10a4167dae691250595f2a62023"}</script>
   <style>
     :root {
       --stage-width: 1600px;
@@ -766,6 +766,7 @@
       let activeIndex = 0;
 
       root.dataset.aspect = config.aspect;
+      root.dataset.backgroundMode = config.background_mode;
       root.dataset.features = config.features.join(' ');
 
       function fitStage() {

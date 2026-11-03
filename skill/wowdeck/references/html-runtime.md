@@ -11,9 +11,10 @@ Embed one machine-readable configuration block:
 ```html
 <script id="deck-config" type="application/json">
 {
-  "version": 1,
+  "version": 2,
   "title": "Presentation title",
   "aspect": "4:3",
+  "background_mode": "light",
   "features": ["navigation"],
   "source_revision": "optional-content-revision",
   "builder_revision": "optional-builder-revision"
@@ -21,7 +22,7 @@ Embed one machine-readable configuration block:
 </script>
 ```
 
-`aspect` accepts `16:9` or `4:3`; choose from the Strategy Note instead of assuming the starter's 16:9 default. If another geometry is essential, change and validate the runtime contract explicitly rather than inventing an unsupported value. The starter defaults to `navigation`, but an empty feature list is valid for core-only output.
+`aspect` accepts `16:9` or `4:3`; choose from the Strategy Note instead of assuming the starter's 16:9 default. If another geometry is essential, change and validate the runtime contract explicitly rather than inventing an unsupported value. In config version 2, `background_mode` is required, accepts `light` or `dark`, and declares the single canvas mode used by the whole deck; mirror it on `<html data-background-mode="...">`. Do not add per-slide inverse modes. Version 1 artifacts without this field remain compatibility inputs and receive a migration warning; do not use that compatibility path for newly generated decks. The starter defaults to `navigation`, but an empty feature list is valid for core-only output.
 
 Only these optional feature names are valid:
 
@@ -65,6 +66,7 @@ Every HTML presentation must provide:
 - a stage containing `.slide` sections in stable reading order, with unique non-sensitive `id` and concise `data-title` values;
 - a heading or accessible name for each presentation unit;
 - the declared size/fit or responsive behavior;
+- one declared `light` or `dark` background mode shared by every presentation unit;
 - legible no-script and initial states appropriate to the delivery context;
 - relative asset resolution and explicit fallbacks for unavailable assets;
 - visible keyboard focus for interactive elements;

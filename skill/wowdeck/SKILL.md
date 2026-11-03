@@ -14,6 +14,7 @@ The canonical authoring source is the smallest reproducible package of structure
 - Inspect the supplied sources, current implementation, delivery environment, and existing decisions before designing.
 - Preserve factual boundaries. Distinguish sourced facts, interpretations, proposals, simulations, generated material, and unknowns at a prominence proportional to their risk.
 - Treat scenario labels and external presentation frameworks as reasoning aids only. Derive general principles; do not copy their branded language, sample copy, or fixed narrative arc.
+- Choose one deck-wide canvas mode—`light` or `dark`—and keep every slide background within it. Never alternate light and dark full-slide backgrounds for rhythm or emphasis; create variation with composition, scale, spacing, typography, accent, imagery, and local surfaces instead.
 - Keep one canonical source of truth for content, configuration, assets, and generation logic. Regenerate HTML and its derivatives instead of editing HTML, PDF, PPTX, and MP4 as independent versions. If only a final HTML artifact exists, label it `artifact-only` rather than implying it is reproducible.
 - Ask only when a missing choice would materially change the audience, communication outcome, artifact format, cost, publication authority, or risk. Otherwise record a reasonable assumption and continue.
 

@@ -1,18 +1,18 @@
 {
   "version": 1,
   "variant": "non-pitch-teaching",
-  "source_revision": "b7d7e80e1fead9814ab69bc94deed4c9921407bedf5dc3a3342120b8a271570e",
-  "builder_revision": "bff2f8a68d9bdb881bc6e9f6d075d139214fcf6bcab55a8602b55ab6fd801366",
+  "source_revision": "845c1fc690affe1fa1efc3121fc785fc118c8bd705b6280f9d21006c289b276f",
+  "builder_revision": "a8c8b57cbeb3bfbe3dea6669d198fadfef11d10a4167dae691250595f2a62023",
   "files": [
     {
       "path": "content.json",
       "role": "authoring",
-      "sha256": "b7d7e80e1fead9814ab69bc94deed4c9921407bedf5dc3a3342120b8a271570e"
+      "sha256": "845c1fc690affe1fa1efc3121fc785fc118c8bd705b6280f9d21006c289b276f"
     },
     {
       "path": "build.py",
       "role": "runtime",
-      "sha256": "bff2f8a68d9bdb881bc6e9f6d075d139214fcf6bcab55a8602b55ab6fd801366"
+      "sha256": "a8c8b57cbeb3bfbe3dea6669d198fadfef11d10a4167dae691250595f2a62023"
     }
   ]
 }

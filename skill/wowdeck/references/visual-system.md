@@ -10,12 +10,21 @@ Before composing screens, record:
 - composition model and intended logical size or responsive behavior;
 - primary geometry, alignment, spacing, and density;
 - typography behavior across required languages;
+- one deck-wide canvas mode (`light` or `dark`), its base background family, and the allowed local surface range;
 - color, status, and emphasis semantics;
 - diagram, chart, image, and media treatment;
 - ordinary state, focal state, and any rhythm or reveal behavior;
 - traits to avoid because they would mislead, distract, or resemble an unrelated template.
 
 Derive these choices from the cognitive task, content carriers, brand material, audience, and delivery context. An industry metaphor is optional. Do not map an industry name directly to a visual template, and do not preserve a prior deck's geometry merely by changing colors.
+
+## Keep one deck-wide background mode
+
+Choose `light` or `dark` once for the presentation canvas and keep it across the cover, ordinary slides, section dividers, evidence pages, media pages, and ending. Do not alternate, invert, or switch between light and dark full-slide backgrounds to manufacture rhythm, signal a chapter, or make a page feel important. A deck that changes canvas polarity reads as multiple visual systems even when its accent colors match.
+
+Create pacing and emphasis inside the chosen mode through layout, whitespace, type scale, focal imagery, accent placement, density, borders, diagrams, and semantically justified motion. Cards, panels, charts, dialogs, screenshots, and media frames may use local contrast, but they must remain subordinate surfaces rather than turning the whole slide into the opposite mode. Keep full-bleed imagery inside the same perceived canvas family with a consistent crop, matte, or overlay. Do not recolor truthful screenshots or video merely to satisfy the mode; preserve the evidence and use a fixed canvas matte, frame, header, footer, or layout crop to keep the deck visually continuous.
+
+Use shared deck-level tokens for the canvas, text, muted text, lines, panels, focus, and accent. Do not keep unused inverse-theme slide classes or per-page background overrides in a newly generated deck; they invite accidental theme switching during revision. Print or export may use a different substrate only as an explicit format-specific transformation that is validated separately, not as mixed styling in the live deck.
 
 ## Compose from semantic relationships
 
@@ -81,4 +90,4 @@ Also ensure that the initial state is understandable before scripts or animation
 
 ## Visual acceptance
 
-Inspect rendered output, not only the DOM or source code. At minimum review the entry screen, the densest screen, a representative evidence/data screen, every media treatment, and the ending at actual target sizes. Check reading order, clipping, contrast, focus, source labels, and whether the intended emphasis survives a screenshot, print, and reduced-motion mode when those paths matter.
+Inspect rendered output, not only the DOM or source code. Review an all-slide contact sheet or equivalent full-slide rendered gallery to confirm that every slide remains in the declared canvas mode, then inspect the entry screen, the densest screen, a representative evidence/data screen, every media treatment, and the ending at actual target sizes. Computed styles alone are not visual proof. Check reading order, clipping, contrast, focus, source labels, and whether the intended emphasis survives a screenshot, print, and reduced-motion mode when those paths matter.

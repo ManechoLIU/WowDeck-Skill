@@ -6,6 +6,7 @@
   "subtitle": "给没有算法基础的成人学习者",
   "lang": "zh-CN",
   "aspect": "16:9",
+  "background_mode": "light",
   "features": [
     "navigation"
   ],
