@@ -1,0 +1,378 @@
+{
+  "schema_version": 1,
+  "variant": "non-pitch-teaching",
+  "content_revision": "binary-search-intuition-v1",
+  "title": "二分查找为什么每一步能排除一半",
+  "subtitle": "给没有算法基础的成人学习者",
+  "lang": "zh-CN",
+  "aspect": "16:9",
+  "background_mode": "light",
+  "features": [
+    "navigation"
+  ],
+  "strategy": {
+    "audience_and_context": {
+      "primary_audience": "没有算法基础的成人学习者",
+      "prior_knowledge": "会比较数字大小，知道从左到右递增",
+      "viewing_context": "可独立浏览的短教学演示，也可由讲解者带领",
+      "attention_constraint": "约 4 分钟，避免代码与术语负担"
+    },
+    "desired_shift_and_job": {
+      "shift": "只会逐个查找 -> 能解释为什么看中间可以排除一侧，并能在纸上完成一次查找",
+      "primary_job": "建立直觉并安排一次迁移练习"
+    },
+    "central_question_route_ending": {
+      "question": "为什么和中间数比较一次，就能放心排除大约一半？",
+      "route": [
+        "从有序数字列与具体目标进入",
+        "把有序关系连接到整段排除",
+        "连续展示三次候选范围缩小",
+        "让学习者手算一个新目标",
+        "用答案与四步口诀完成反馈"
+      ],
+      "ending": "学习者看到自己的比较路径，并能复述中间、比较、排除、重复"
+    },
+    "claim_and_evidence_risk": {
+      "risk": "低",
+      "scope": "升序排列、互不重复的整数列表；示例只解释查找直觉，不展开代码与复杂度",
+      "basis": "基于大小关系的自包含逻辑推演",
+      "visible_qualification": "无序列表不能使用同样的整段排除；奇数个候选时两侧数量可能相差一个"
+    },
+    "delivery_constraints_features": {
+      "output": "本地、无外部依赖的 HTML",
+      "stage": "16:9 固定舞台，浏览器等比缩放",
+      "viewports": [
+        "1440x900",
+        "800x600"
+      ],
+      "offline": true,
+      "enabled_features": [
+        "navigation"
+      ],
+      "reduced_motion": "所有内容立即可见，状态含义不依赖动画",
+      "print": "每页保留最终静态状态"
+    }
+  },
+  "dependency_graph": {
+    "nodes": [
+      {
+        "id": "ordered-list",
+        "role": "audience-known context",
+        "summary": "数字从左到右递增"
+      },
+      {
+        "id": "middle-comparison",
+        "role": "method",
+        "summary": "先比较当前范围的中间数"
+      },
+      {
+        "id": "whole-side-elimination",
+        "role": "concept",
+        "summary": "顺序把一个大小比较扩展成整段不可能"
+      },
+      {
+        "id": "worked-example",
+        "role": "demonstration",
+        "summary": "目标 37 的候选范围连续缩小"
+      },
+      {
+        "id": "transfer-practice",
+        "role": "practice",
+        "summary": "目标 58 的手算练习与反馈"
+      }
+    ],
+    "edges": [
+      {
+        "from": "ordered-list",
+        "to": "whole-side-elimination",
+        "relation": "enables"
+      },
+      {
+        "from": "middle-comparison",
+        "to": "whole-side-elimination",
+        "relation": "explains"
+      },
+      {
+        "from": "whole-side-elimination",
+        "to": "worked-example",
+        "relation": "enables"
+      },
+      {
+        "from": "worked-example",
+        "to": "transfer-practice",
+        "relation": "enables"
+      }
+    ],
+    "route": [
+      "ordered-list",
+      "middle-comparison",
+      "whole-side-elimination",
+      "worked-example",
+      "transfer-practice"
+    ]
+  },
+  "visual_contract": {
+    "purpose": "像在纸上划掉候选项一样，让范围缩小可见",
+    "composition": "1600x900 固定舞台；数字条在连续页面保持同一位置",
+    "geometry": "横向数字格、比较符号、步骤卡片",
+    "typography": "系统中文字体，大字号，稳定的表格数字",
+    "color_semantics": {
+      "candidate": "深青色边框与文字",
+      "current_middle": "橙色粗框和中间标签",
+      "discarded": "灰色斜线并写明已排除",
+      "found": "绿色实心圆与找到标签"
+    },
+    "motion": "翻页时短暂淡入；连续步骤中的数字条保持空间位置",
+    "static_equivalent": "斜线、文字标签、边框和位置在无动画与打印状态下保留全部含义",
+    "avoid": [
+      "代码界面",
+      "霓虹科技皮肤",
+      "无语义的粒子与大幅移动"
+    ]
+  },
+  "lesson": {
+    "series_label": "二分查找 · 直觉课",
+    "numbers": [
+      3,
+      7,
+      10,
+      14,
+      18,
+      22,
+      25,
+      29,
+      33,
+      37,
+      41,
+      46,
+      52,
+      58,
+      63
+    ],
+    "slides": [
+      {
+        "id": "start-in-the-middle",
+        "data_title": "先看中间",
+        "role": "具体入口",
+        "kind": "intro",
+        "eyebrow": "先从直觉开始",
+        "title": "找 37，你会先看哪一个数字？",
+        "lead": "从左到右逐个找当然可以。二分查找换一个起点：先看当前范围的中间。",
+        "target": 37,
+        "mid_index": 7,
+        "mid_label": "先看这里",
+        "focus_text": "中间数是 29",
+        "takeaway": "这一眼不是猜测。列表有顺序，所以比较一次就能判定整整一侧。",
+        "footer": "接下来回答：为什么能放心划掉一整段？"
+      },
+      {
+        "id": "order-makes-it-safe",
+        "data_title": "顺序带来排除",
+        "role": "建立原理",
+        "kind": "rule",
+        "eyebrow": "关键原理",
+        "title": "能排除一半，靠的不是运气，是顺序",
+        "premise": "这串数字从左到右越来越大",
+        "target": 37,
+        "mid_index": 7,
+        "logic": [
+          {
+            "mark": "≤",
+            "label": "29 左边",
+            "text": "每一个数都 ≤ 29"
+          },
+          {
+            "mark": "<",
+            "label": "这次比较",
+            "text": "29 < 37"
+          },
+          {
+            "mark": "≠",
+            "label": "所以",
+            "text": "左边整段都不可能等于 37"
+          }
+        ],
+        "boundary": "如果列表没有排序，左边可能藏着更大的数，这个推理就会失效。",
+        "footer": "顺序把一个点的比较，扩展成一整段的结论。"
+      },
+      {
+        "id": "step-one",
+        "data_title": "第一步",
+        "role": "示范第一次排除",
+        "kind": "step",
+        "eyebrow": "候选范围 15 → 7",
+        "title": "第一步：37 比 29 大",
+        "target": 37,
+        "mid_index": 7,
+        "comparison": "37 > 29",
+        "past_indices": [],
+        "discarded_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "candidate_indices": [
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "reason": "29 以及它左边的数都 ≤ 29，所以都不是 37。",
+        "action": "只留下右半边",
+        "remaining": "还剩 7 个候选",
+        "footer": "排除不是删除答案，而是删除已经证明不可能的范围。"
+      },
+      {
+        "id": "step-two",
+        "data_title": "第二步",
+        "role": "示范第二次排除",
+        "kind": "step",
+        "eyebrow": "候选范围 7 → 3",
+        "title": "第二步：37 比 46 小",
+        "target": 37,
+        "mid_index": 11,
+        "comparison": "37 < 46",
+        "past_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "discarded_indices": [
+          11,
+          12,
+          13,
+          14
+        ],
+        "candidate_indices": [
+          8,
+          9,
+          10
+        ],
+        "reason": "46 以及它右边的数都 ≥ 46，所以都不是 37。",
+        "action": "只留下左半边",
+        "remaining": "还剩 3 个候选",
+        "footer": "每一步都在新的候选范围里重新找中间。"
+      },
+      {
+        "id": "step-three",
+        "data_title": "找到 37",
+        "role": "完成示范并综合",
+        "kind": "found",
+        "eyebrow": "候选范围 3 → 找到",
+        "title": "第三步：正中 37",
+        "target": 37,
+        "mid_index": 9,
+        "comparison": "37 = 37",
+        "past_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          11,
+          12,
+          13,
+          14
+        ],
+        "candidate_indices": [
+          8,
+          9,
+          10
+        ],
+        "trail": "看过的中间数：29 → 46 → 37",
+        "shrink": "候选范围：15 → 7 → 3 → 找到",
+        "nuance": "这里的“一半”是大约一半：候选数为奇数时，两侧会相差一个。",
+        "footer": "核心不是记路径，而是每次都只保留仍有可能的一侧。"
+      },
+      {
+        "id": "practice-58",
+        "data_title": "手算一次",
+        "role": "迁移练习",
+        "kind": "practice",
+        "eyebrow": "轮到你",
+        "title": "现在找 58：把每次看到的中间数写下来",
+        "target": 58,
+        "mid_index": 7,
+        "mid_label": "从这里开始",
+        "instructions": [
+          "圈出当前候选范围的中间数",
+          "比较它和 58 的大小",
+          "划掉不可能的一侧",
+          "在剩下的范围里重复"
+        ],
+        "pause_note": "先在纸上写出你的路径，再翻到下一页核对。",
+        "footer": "问题只要一个：目标在中间数的左边、右边，还是正中？"
+      },
+      {
+        "id": "practice-answer",
+        "data_title": "练习答案",
+        "role": "反馈与迁移",
+        "kind": "answer",
+        "eyebrow": "核对路径",
+        "title": "29 → 46 → 58，三次比较找到",
+        "target": 58,
+        "mid_index": 13,
+        "past_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "candidate_indices": [
+          12,
+          13,
+          14
+        ],
+        "trail": [
+          {
+            "value": "29",
+            "comparison": "58 > 29",
+            "move": "留下右边"
+          },
+          {
+            "value": "46",
+            "comparison": "58 > 46",
+            "move": "再留下右边"
+          },
+          {
+            "value": "58",
+            "comparison": "58 = 58",
+            "move": "找到"
+          }
+        ],
+        "recipe": [
+          "找中间",
+          "比较大小",
+          "排除不可能的一侧",
+          "对剩下的范围重复"
+        ],
+        "closing": "只要列表有序，一次比较就能把“不可能”扩展到整整一侧。",
+        "footer": "你已经解释过原理，也手算完成了一次。"
+      }
+    ]
+  }
+}
