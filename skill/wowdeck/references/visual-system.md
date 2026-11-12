@@ -1,126 +1,84 @@
-# Visual system
+# Visual direction and scene craft
 
-Use this reference to translate the Strategy Note and dependency graph into a coherent visual language. Visual design must explain, orient, compare, emphasize, or create the intended experience; it is not a theme applied after the content is finished.
+Visuals are part of the explanation. Start with what the audience should notice and experience, then choose geometry, evidence, type and movement that express it. Use these techniques as a working vocabulary, not a mandatory slide sequence.
 
-## Derive a visual contract
+## Establish the direction
 
-Before composing screens, record:
+Inspect any accepted deck or reference in its rendered form. Name the useful technique precisely: a stable overview, in-place focus, evidence at readable scale, coordinated output board, scene continuity, restrained depth, or a paced reveal. Transfer those techniques rather than cloning the industry's palette, wording or motifs. When revising, preserve the accepted direction unless a new decision changes it.
 
-- visual purpose and the audience's viewing conditions;
-- composition model and intended logical size or responsive behavior;
-- primary geometry, alignment, spacing, and density;
-- typography behavior across required languages;
-- one deck-wide canvas mode (`light` or `dark`), its base background family, and the allowed local surface range;
-- color, status, and emphasis semantics;
-- diagram, chart, image, and media treatment;
-- ordinary state, focal state, and any rhythm or reveal behavior;
-- traits to avoid because they would mislead, distract, or resemble an unrelated template.
+Write a short art-direction brief in the existing working source:
 
-Derive these choices from the cognitive task, content carriers, brand material, audience, and delivery context. An industry metaphor is optional. Do not map an industry name directly to a visual template, and do not preserve a prior deck's geometry merely by changing colors.
+`subject / audience experience / primary geometry / typography / material and depth / color roles / motion grammar / traits to avoid`
 
-## Keep one deck-wide background mode
+Make the direction specific enough to influence the scene. “Modern, premium, cinematic” gives no geometry or attention hierarchy. A subject may suggest a plan table, editorial studio, field notebook, evidence wall or another useful visual language; a literal metaphor is optional. Avoid choosing a template from an industry name alone.
 
-Choose `light` or `dark` once for the presentation canvas and keep it across the cover, ordinary slides, section dividers, evidence pages, media pages, and ending. Do not alternate, invert, or switch between light and dark full-slide backgrounds to manufacture rhythm, signal a chapter, or make a page feel important. A deck that changes canvas polarity reads as multiple visual systems even when its accent colors match.
+Use one deck-wide `light` or `dark` canvas mode, with shared tokens for background, ink, muted ink, line, local surfaces, accent and focus. Keep that polarity across cover, chapters and ending. Vary composition, density, scale, imagery and local contrast to create rhythm. Preserve truthful screenshots inside a consistent frame/matte instead of recoloring their evidence. Print can have a separately validated substrate.
 
-Create pacing and emphasis inside the chosen mode through layout, whitespace, type scale, focal imagery, accent placement, density, borders, diagrams, and semantically justified motion. Cards, panels, charts, dialogs, screenshots, and media frames may use local contrast, but they must remain subordinate surfaces rather than turning the whole slide into the opposite mode. Keep full-bleed imagery inside the same perceived canvas family with a consistent crop, matte, or overlay. Do not recolor truthful screenshots or video merely to satisfy the mode; preserve the evidence and use a fixed canvas matte, frame, header, footer, or layout crop to keep the deck visually continuous.
+## Compose recognisable scene families
 
-Use shared deck-level tokens for the canvas, text, muted text, lines, panels, focus, and accent. Do not keep unused inverse-theme slide classes or per-page background overrides in a newly generated deck; they invite accidental theme switching during revision. Print or export may use a different substrate only as an explicit format-specific transformation that is validated separately, not as mixed styling in the live deck.
+Choose a family for its explanatory job. Reuse alignments and anchors so the deck feels coherent; vary focal scale and position so scenes do not become clones.
 
-## Compose from semantic relationships
+| Scene / question | Build it this way | Useful motion and static equivalent |
+|---|---|---|
+| Opening / what is this about? | Strong concise thesis with one product/result/subject field; minimal chrome and a deliberate focal hierarchy | A restrained arrival; static title and focal visual already readable |
+| Overview / where are we? | A stable map of the important relationships or capabilities; keep spatial positions recognisable | Dim context and focus one region in place; final still retains map and active label |
+| Capability / what changes? | Recognisable situation + action + visible result; contrast a small input with a dominant output | Transform the same named object across states; side-by-side or labeled final state in reduced motion |
+| Product tour / where do I act? | A readable interface crop with 1–3 exact callouts and a nearby result; retain an overview when orientation is needed | Focus shifts between actual controls/states; step labels and overview remain in the static version |
+| Outputs / what can I use? | Show real permitted outputs at different useful scales, with a common topic and a clear relationship | Compose the set or reveal its roles; final board remains legible without the reveal |
+| Workflow / how does it proceed? | Directed path, actors, decisions, review and outputs; use lanes when ownership matters | Reveal in reasoning order or move a named object; final arrows and labels encode the same order |
+| Comparison / what differs? | Shared task, baseline and criteria; align corresponding elements instead of separate prose cards | Highlight one comparison at a time; all criteria and qualifications remain visible statically |
+| Evidence / why believe it? | Dominant artifact/photo/chart with a precise interpretation and source; little decorative competition | Zoom/callout preserves context; no transient-only evidence |
+| Synthesis / what remains? | Reconnect the demonstrated changes into a simpler whole; end at the audience's intended understanding/action | Settle into a clear final state; avoid a closing page that merely repeats the opening slogan |
 
-Use the dependency graph to choose visual structures:
+A useful demonstration sequence is `overview → in-place focus → work/result → meaning → reconnect`. Keep the object or position stable between scenes. This creates continuity without forcing a story map onto a short lesson or inserting repeated transition pages for ceremony.
 
-- shared coordinates for comparisons;
-- adjacency and alignment for related items;
-- direction and labeled connectors for sequence or causality;
-- containment for hierarchy or scope;
-- repeated position for continuity across states;
-- tables or small multiples when precise comparison matters more than drama;
-- diagrams or annotated evidence when relationships matter more than prose.
+## Make evidence and outcomes large enough
 
-Write the intended audience takeaway before drawing a diagram or chart. Show only relationships needed for that takeaway, but retain units, scope, uncertainty, and source cues that affect interpretation.
+Use an actual permitted interface or output when explaining a product. Start from the result when it helps the audience understand the promise, then show the relevant work. Full-screen application thumbnails are often too small: crop to the meaningful operation, use a focused enlargement, and preserve enough context to locate it. Callout connectors should terminate at the exact referent. Separate annotation from the original pixels.
 
-Do not force every screen into a “one conclusion plus proof” pattern. A screen may establish context, pose a question, teach a step, provide breathing room, invite comparison, hold an experience, or support discussion. It still needs a clear role and visual focus.
+Images can explain the subject, create atmosphere, demonstrate a state or show evidence. Give each a purpose; decoration alone does not fulfil a requested product demonstration. If an exact asset is missing, inspect available assets first, then use a truthful HTML/SVG diagram or labeled concept. Do not fabricate documentary UI or silently replace a requested video with a generic poster.
 
-## Size, fit, and safe regions
+Frame portrait media deliberately; do not stretch it across the canvas. Use a representative poster, a concise “what to notice” caption, controls and failure recovery. Let the audience see the action and result without a long idle recording. Narration, when requested, must describe the visible operation at the same time, with natural pauses; a script or duration sum does not prove synchronisation. Follow [quality-gates.md](quality-gates.md) for media and export acceptance.
 
-Do not assume 16:9. Select the supported `16:9` or `4:3` stage from the Strategy Note and let the runtime map it to the corresponding logical dimensions. Scale the stage uniformly and allow letterboxing rather than stretching it. If the task requires a different ratio or a responsive document rather than a stage, treat that as an explicit runtime change; do not silently coerce it to 16:9.
+## Scale and typography for projection
 
-Express safe regions in relation to the selected stage and target environment. Account for projector overscan, browser chrome, captions, controls, mobile crops, and print margins where applicable. Verify the densest screen at the smallest target viewport instead of shrinking all typography until it fits.
+Select 16:9 or 4:3 from the actual delivery conditions; uniformly scale a fixed logical stage and letterbox rather than stretch. For a 1600 × 900 stage, useful starting values are:
 
-## Typography and hierarchy
+- safe margins around 64–88 px, adjusted for controls/captions and the venue;
+- display type around 72–104 px, scene headings 48–68 px, body 26–34 px, supporting labels 18–24 px;
+- one dominant focus, a short reading order, and supporting text that can be read at the target distance.
 
-- Choose typefaces that cover the required scripts and can be legally packaged or reliably substituted.
-- Use a small, intentional set of text roles. Size, weight, measure, spacing, and position should make reading order evident without color.
-- Match terminology and density to the audience. Do not hide missing explanation behind tiny labels or oversized decorative type.
-- Use tabular numerals where comparisons or timing require stable alignment.
-- Keep essential copy as text when search, accessibility, localization, or editability matters.
+These are starting points, not an excuse to shrink content until it fits. Inspect the densest scene at the smallest target viewport. Split, crop, simplify or move secondary detail when required. Use CJK-capable fonts and intentional Chinese line breaks; avoid enormous titles above tiny body paragraphs. Keep critical words, chart labels and arrows as HTML/SVG text.
 
-Design a clear static hierarchy for every screen. For a longer or performance-oriented presentation, add an emphasis map naming the screen, what the audience should notice, the chosen emphasis method, its semantic purpose, and its static/reduced-motion equivalent. Ordinary screens should create contrast and breathing room; if everything is a highlight, nothing is.
+Use stable meanings for color, with shape/text/position as well. Verify contrast and the smallest necessary text. Informative images need alternative text or an equivalent description; decoration should have empty alt text or `aria-hidden="true"`. Charts retain units, scope, sources and uncertainty; do not draw invented improvement bars.
 
-## Color, evidence, and accessibility
+## Design motion as a sequence of attention
 
-Assign stable meanings to color roles and verify contrast in the target environment. Never make color the only carrier of status, change, or correctness. Add text, shape, icon, pattern, or position.
+Use motion when it contributes to the talk, including a deliberate emotional beat. Reduced-motion support is an accessible counterpart, not a reason to strip expressive normal-mode animation from a request for it.
 
-Keep sourced evidence visually distinguishable from interpretation or decoration when confusion would matter. Do not crop, recolor, or annotate source media in a way that changes its apparent meaning; disclose material edits and keep annotations separable where practical.
+| Meaning | Technique | Practical starting point |
+|---|---|---|
+| Orient | Quiet scene transition with a stable title or shared anchor | 220–400 ms; short travel rather than a large fly-in |
+| Focus | In-place enlargement or dimming of context around a selected region | 450–750 ms; keep the referent anchored and readable |
+| Explain order | Reveal connected nodes or stages in their real dependency order | 300–550 ms per change, 60–120 ms stagger for tightly related items |
+| Show change | Move/transform the same named object from input to result | 500–850 ms; preserve identity and show the final output |
+| Establish hierarchy | Bring forward the relevant layer, then settle | 450–700 ms; restrained perspective/scale, no critical text distortion |
+| Sustain atmosphere | Subtle texture/light/motif that belongs to the subject | Slow and low contrast, stopped offscreen; remove in reduced motion |
 
-Every informative image needs meaningful alternative text or an adjacent textual equivalent. Decorative images use empty alternative text. Charts need a concise accessible takeaway plus the units, scope, and source required to interpret them.
+Write `before → after / trigger / purpose / readable final state`. Match durations to speaking and reading time; these values are tuning starts, not fixed quotas. For multi-step tours expose replay or deterministic revisit behavior. Clear timers and animation state on leave; stop hidden-slide work. A generic fade on every page does not meet a request for varied narrative motion. Adding unrelated animations to every object makes the explanation harder.
 
-## Media and generated visuals
+In reduced motion remove travel, parallax, looping and unnecessary delay. Show essential final content immediately or through direct state replacement. Keep order, labels, focus, keyboard behavior and media controls equivalent. Never gate essential content on `transitionend`.
 
-Use imagery or timed media only when it contributes evidence, explanation, demonstration, atmosphere, or memory. Record its purpose, source, rights, truth status, and fallback before integration.
+## Calibrate finished-scene fidelity
 
-Generated visuals must not impersonate documentary evidence. Critical labels and claims should remain in HTML/SVG text rather than being baked into generated pixels. A missing trustworthy asset is a reason to use a diagram, evidence board, or explicit placeholder—not to fabricate a screenshot.
+Open [scene-craft.html](../assets/reference/scene-craft.html) as a synthetic working example. Study continuity, focus, a named object changing state, readable content within the artifact, and an output composition. Adopt a technique when it serves the current subject; its dark canvas and scene order are examples, not requirements.
 
-Follow the staged media gates in [quality-gates.md](quality-gates.md).
+When the user points to a praised deck, use that exact deck as the craft benchmark locally. Compare comparable roles at the same viewing scale: demonstration to demonstration, flow to flow, ending to ending. Name the visible gap and repair it. Do not reduce the reference to its colors or assume that an outline plus diagrams matches its finish.
 
-## Motion and reduced motion
+A wireframe is useful for staging, but a finished illustrative product scene needs enough concrete content to inspect: a meaningful input, a source cue, a real decision/change, and a readable output. Use a truthful native illustration with deliberate geometry/detail when photography is unavailable; a repeated generic rectangle/icon does not explain the subject. Use available space for legible evidence and hierarchy, while keeping quiet pauses intentional. Visual weight and density should follow the story rather than leaving every operation as a small panel beside broad empty margins.
 
-Motion is a presentation technique, not a runtime feature. Use it only when it clarifies continuity, causality, hierarchy, feedback, or an intentional emotional beat. Prefer short, interruptible transitions and deterministic reveals. Essential information must not exist only during an animation or after a `transitionend` event.
+## Produce, then judge the result
 
-`prefers-reduced-motion` support is mandatory whether or not the deck uses noticeable animation. In reduced-motion mode:
+Read the storyboard as a visual sequence. Are the product and outputs actually visible? Do processes show a direction and a transformation? Does a comparison use shared criteria? Can the audience tell a quiet statement from an evidence scene? Do the strongest moments earn their scale and timing?
 
-- remove non-essential travel, parallax, looping, and delay;
-- make all essential content reachable immediately;
-- preserve state changes through static hierarchy, labels, or direct replacement;
-- keep keyboard and focus behavior identical;
-- ensure media does not autoplay solely to create a reveal.
-
-Also ensure that the initial state is understandable before scripts or animations run.
-
-## Visual acceptance
-
-Inspect rendered output, not only the DOM or source code. Review an all-slide contact sheet or equivalent full-slide rendered gallery to confirm that every slide remains in the declared canvas mode, then inspect the entry screen, the densest screen, a representative evidence/data screen, every media treatment, and the ending at actual target sizes. Computed styles alone are not visual proof. Check reading order, clipping, contrast, focus, source labels, and whether the intended emphasis survives a screenshot, print, and reduced-motion mode when those paths matter.
-
-## From art direction to visible craft
-
-Use the storyboard in [content-direction.md](content-direction.md) to select the visual relationship before selecting a layout. For example, make a comparison spatially comparable, make a workflow’s direction clear, and connect an interface callout to the exact feature it explains. Do not arrange everything as equal cards or rely on a generic glow to create a product identity.
-
-For product introductions, use legible real product imagery when available and relevant. A full interface thumbnail can orient the audience; focused crops and restrained callouts explain the task. Preserve provenance and context, avoid unreadably small text, and do not crop away a limitation that changes meaning. Illustrations or generated UI concepts must not masquerade as actual product evidence.
-
-Create variation inside the accepted visual system: a strong typographic opening, a product stage, an annotated detail, a process or information-flow diagram, a comparison, or a quiet synthesis may each suit different content. These are options, not a sequence or quota. Avoid both monotonous repeated card grids and unrelated layouts that destroy continuity. A request for richer visual effects requires visible composition and semantic motion, not merely a different gradient.
-
-For talks explicitly requesting strong motion, plan techniques by meaning and timing: staged flow reveals for order, connected movement for a real transformation, focus/callout changes for interface explanation, and restrained depth for hierarchy. Do not make every screen fade upward identically. Keep atmosphere subordinate to the explanation, stop work on hidden slides, and respect the baseline reduced-motion and static-output contracts. Judge the rendered sequence and revisit/replay behavior, not the number of keyframes.
-
-Apply relevant patterns in [experience-casebook.md](experience-casebook.md) without adopting an example’s palette, wording, page count, or feature set as a universal recipe.
-
-## Turn art direction into a production system
-
-Write a small visual grammar before coding: which screen roles use a product stage, annotated detail, flow diagram, comparison, chart, evidence board, typographic statement, or quiet synthesis; which roles are allowed to repeat; and how a viewer can tell the roles apart. The grammar should create continuity without making every screen a clone.
-
-Treat visual coverage as a communication budget. Count the screens that contain a meaningful visual carrier and inspect their distribution across the route. A long deck with only a few images technically has imagery but still communicates as a document. Product, workflow, comparison, and evidence claims should have a visual carrier on the screen where the claim is made or on the immediately connected screen. If the carrier is unavailable, use a truthful diagram, a labeled simulation, or a clearly scoped text composition and record that choice.
-
-For each visual carrier answer three questions: what should be noticed first, what relationship or mechanism does its geometry encode, and what would be lost if it were replaced by prose? If the answer is unclear, the carrier is decoration. Use real interface captures at a readable scale for product explanations; use focused crops or callouts to explain one operation; use a full interface only when orientation matters. Keep labels in HTML/SVG text so they remain editable and accessible.
-
-### Motion must change the explanation
-
-Tag motion by its meaning before implementing it: `sequence`, `causality`, `focus`, `state-change`, `feedback`, or `emotional-beat`. State the before and after, the trigger, the duration, and the reduced-motion equivalent. A deck where every screen uses the same fade or translate has animation rules but no motion direction. Prefer connected flow reveals, focus shifts over an interface, state transitions, and deliberate pacing over decorative travel. The still frame must already carry the essential meaning.
-
-### Visual anti-patterns to reject
-
-- a product introduction that names features without showing an action, response, or output;
-- a relationship or comparison represented only by paragraphs;
-- a long run of slides with the same title, card grid, and alignment;
-- tiny screenshots surrounded by empty chrome, or generated imagery that pretends to be product evidence;
-- a gradient, glow, or animation count used as a substitute for a visual idea;
-- a dark/light full-slide switch used as the only chapter or emphasis device.
+Render representative scenes before expanding; then inspect an all-slide gallery and full-size scenes. Watch reveals, replay/revisit, and reduced-motion states. Source code, image counts, animation counts and declared layout names cannot establish taste or comprehension. A decorative SVG on every page is no better than no meaningful picture; an HTML-only diagram or typographic scene can be excellent. Use [quality-gates.md](quality-gates.md) to report these judgments separately from runtime checks.

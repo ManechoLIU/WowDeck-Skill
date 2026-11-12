@@ -2,7 +2,7 @@
 
 Use this reference when creating or changing the browser artifact. Runtime behavior follows the Strategy Note; it must not impose a narrative, visual style, aspect ratio, or delivery mode.
 
-The initializer provides a structural starting point, not audience-ready content or a completed visual system. Implement the storyboard’s composition, assets, diagrams, and justified motion before acceptance; a valid configuration or working next-slide key is not proof of presentation quality.
+The initializer provides a structural starting point, not audience-ready content or a completed visual system. Keep its controller contracts, but replace its placeholder DOM and composition CSS (`.slide`, `.slide-content`, title/paragraph sizing and header/footer treatment) for the chosen scenes. A controller is reusable infrastructure; its starter geometry is not a theme. Implement the storyboard’s composition, assets, diagrams, and justified motion before acceptance; a valid configuration or working next-slide key is not proof of presentation quality.
 
 ## Package and configuration
 

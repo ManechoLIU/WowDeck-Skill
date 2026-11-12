@@ -1,99 +1,72 @@
-# Content direction and screen storyboards
+# Content direction
 
-Use this reference after the Strategy Note and dependency graph, before layout or a material content rewrite. Keep its working records internal; the audience receives the resulting story and visuals, not production instructions.
+Use before layout for a new story or substantial rewrite. Work in the existing outline/content source; one compact storyboard is enough.
 
-## Turn source material into audience meaning
+## Learn the subject before polishing its promise
 
-Protect the original facts, numbers, actors, distinctive wording, certainty, scope, and unresolved ambiguity before editing. Do not fill missing referents, causes, owners, dates, adoption, or commercial outcomes. Cluster material by the audience’s questions rather than the repository structure, meeting chronology, or feature menu.
+For a product talk, inspect its documented or observable operation and permitted existing outputs. A readme and menu list can orient you; they seldom explain the experience. Establish the following for every capability important to the requested story:
 
-State one throughline that answers the central question. Test the route from the audience’s position: why does the opening concern them; what do they understand next; what new fact, example, comparison, relationship, or experience does each screen add; what can they now understand or do at the ending? Remove a repeated claim or combine thin screens when there is no useful increment. Do not turn every transition into suspense or every ending into a sales ask.
-
-For explanatory and claim-bearing screens, write a short, concrete takeaway the listener could repeat. Prefer the source’s strong wording when accurate; otherwise distill its meaning without increasing certainty. A title may express that takeaway, ask a useful question, or orient the audience. Do not force slogans, rhetorical questions, parallel sentences, or a fixed three-bullet pattern. Preserve enough detail to explain the mechanism and its conditions; important reasoning must not disappear in the name of brevity.
-
-Before visual polish, fix the weakest communication link: relevance, clarity, evidence, comprehension, or ending. Polished typography cannot repair a missing product explanation.
-
-## Product and business talks
-
-Apply this section when the communication job includes explaining, demonstrating, or selling a product. It does not impose a pitch structure on teaching, research, celebration, or reporting.
-
-For each important capability, establish the relationships below using supported facts:
-
-`recognizable task or friction -> person’s action -> product response -> usable output -> operational significance`
-
-Operational significance can concern preparation time, repeated entry, handoffs, traceability, consistency, asset reuse, or another audience-relevant change. Explain how the capability creates that change. Claimed savings, revenue, conversion, or ROI require their own evidence and assumptions; a plausible mechanism is not a measured result.
-
-Build at least one coherent usage journey when a complete workflow is requested or essential to understanding the product. Follow the same person and business object from input through meaningful product steps to an inspectable output and its next use. Connect the main interface, process diagram, and demo to that journey. Describe only supported next uses: a save action alone does not establish later retrieval, re-editing, sharing, or publishing. A product tour that merely lists menus, and a marketing story that never shows what the product does, both leave a gap.
-
-Choose diagrams by the question they answer:
-
-- **Business capability map:** who uses what and for which result. For business audiences, use their task vocabulary instead of code modules, APIs, databases, or agent internals.
-- **Workflow:** actors, steps, handoffs, decisions, and outputs needed to understand the work.
-- **Information flow:** where information comes from, how it is transformed, where it goes, and which result uses it. Show relevant human review and limitations.
-- **Comparison:** use the same task, scope, and criteria on both sides. A manual-versus-product comparison must not invent a competitor’s behavior or a baseline measurement.
-- **Data chart:** use only justified values with units, time window, source, and uncertainty. Without measurements, explain the mechanism or propose what to measure; do not draw invented uplift bars.
-
-An illustrative scenario must be recognizable as an example. Fictional businesses must not appear to be real customers; anonymization alone does not make an invented result factual.
-
-## Keep audience copy separate from production notes
-
-Business and user talks should speak in the audience’s language. Put debugging, implementation reasoning, test status, asset TODOs, and generation instructions in internal working material. Do not fill the visible deck with “pending validation” badges or author instructions.
-
-Retain material qualifications where they affect interpretation, expressed as audience-relevant scope: an example, a target workflow, a supported range, or an assumption. Omit an unsupported claim or frame it at its actual certainty. Removing development chatter never authorizes inventing live functionality, a customer, or a proven outcome.
-
-## The compact storyboard
-
-Use one row per screen in the existing working source or outline; do not create a second content authority. Depth and fields may be compact for a simple deck. Cover these decisions before implementation:
-
-| Decision | What to record |
+| Question | Useful answer |
 |---|---|
-| Audience question and screen role | Why this screen exists here; what preceding understanding it needs |
-| New meaning and audience copy | Takeaway or intended experience, title, essential explanation, relevant qualification |
-| Evidence and asset | Claim source; exact screenshot, chart, diagram, video, or intentional text composition; provenance and availability |
-| Visual relationship | What the composition must communicate: sequence, comparison, hierarchy, transformation, focus, or another justified relation |
-| Attention and motion | What is noticed first; reveal/transition purpose if needed; readable static and reduced-motion state |
-| Timing and continuity | Speaking/reading time when constrained, link into the next screen, and any interaction or media allowance |
+| Who is trying to do what? | A recognisable task with an input and a constraint |
+| What does the person actually do? | Enter, select, review, adjust, compare, or another concrete action |
+| What responds? | The product behavior that is supported by current evidence |
+| What can be inspected? | A draft, screen, decision, report, file, or changed state |
+| What does that enable? | A supported next use and operational significance |
+| What will be shown? | Exact permitted output/interface/media, or a truthful explanatory diagram |
 
-Do not lock every screen into the same component or require an image on every page. A real interface can carry demonstration; a diagram can explain relationships; expressive typography can carry a strong idea; whitespace can give a pause. Every selected visual must do useful work.
+If you cannot answer these, inspect the missing source before writing confident copy. Do not substitute generic benefits. Existing permitted outputs should be opened and selected for their explanatory value, not ignored because a placeholder is easier. Lack of live evidence limits the claim; it does not prevent a labeled diagram or illustration.
 
-For a visual-heavy or long presentation, implement an early representative set from the storyboard: an opening, an important product/evidence screen, and a dense relationship screen when applicable. Inspect real renders for readability, visual force, and content clarity before extending the system. Existing accepted references allow proceeding without a new approval round; ask only for a material unresolved choice.
+Protect source numbers, actors, scope, distinctive wording, and certainty. Distinguish a fact from an inference, proposal, simulation, or unknown. Never invent causes, customers, measurements, or downstream functionality to complete a story.
 
-## Coverage and rehearsal
+## Develop the throughline
 
-Map each explicit request to its screen and acceptance evidence in the existing working record. “Requested / planned / implemented / browser-checked / gap” are different states. An image prompt, empty media frame, declared feature flag, or CSS animation rule does not satisfy the corresponding implemented behavior.
+State the audience's central question and what they should understand at the end. Arrange the necessary relationships so prerequisites precede dependent ideas. A short task needs a compact route, not a formal graph artifact. Use [strategy.md](strategy.md) for a complex dependency graph.
 
-A requested video reserve needs a deliberate poster/frame, intended role, placement, and graceful fallback, with missing media recorded internally. Actual playback is accepted separately. Use permitted existing assets or native HTML/SVG diagrams when suitable. New paid generation needs its own authority; do not silently replace a requested visual deliverable with bare text when assets are unavailable.
+Product introductions usually benefit from a concrete situation, an early view of the product/result, several capability stories, an explanation of how the parts connect, and an appropriate synthesis or next step. Change that route when the evidence or job demands it. Teaching, research, and reporting have different endings.
 
-When a time limit exists, budget speech, pauses, reveals, demo playback, and transitions together. Cut redundancy and move secondary detail to an appropriate optional layer before making speech unnaturally fast. A timing sum is a plan; only an actual continuous rehearsal supports a claim that the talk fits.
+For each important capability, build a small story:
 
-## Visual production brief (required before a long or visual-heavy deck)
+`a situation the audience recognises → an action/change → a visible result → why it matters`
 
-The storyboard says what a screen means; the visual production brief says what the audience will actually see. Add these fields to each row when the deck has more than a few screens, introduces a product, or explicitly asks for imagery, diagrams, video, or motion:
+Show the result early when it gives the audience a reason to care; then replay the meaningful work behind it. Follow one business object across an end-to-end journey when that continuity explains the product. Use independent cases for capabilities with different tasks or outputs; do not compress them into a generic persona story. An overview can connect them without replacing their depth.
 
-| Field | Required decision |
+For business audiences, explain the work in their words. Concrete product explanation is part of the business case. Replace “improve content operations” with the supported task: which source becomes which output, what the person reviews, and what they can do next. Claimed savings or revenue still require measurements; mechanisms alone establish no ROI.
+
+## Write audience-ready copy
+
+Write the takeaway as something a listener could repeat. Prefer concrete nouns and active verbs. A title can be a statement, question, step, label, or pause; do not turn every page into a slogan. Explain mechanisms and conditions, not just benefits. For example, “Review the draft beside its source” is clearer than “A new paradigm for intelligent coordination.”
+
+Every screen adds a fact, contrast, example, relationship, experience, or useful pause. Merge thin screens and remove repeated promises. A small number of rich demonstrations can explain more than a large number of headings.
+
+Keep implementation, testing, generation instructions, and asset TODOs internal. Put qualifications next to the relevant claim in language the audience needs. Illustrative scenarios must be recognizable as examples; anonymization does not make fictional results factual. Saving an item does not establish retrieval, editing, sharing, or publishing support.
+
+## Integrated storyboard
+
+| Field | Record the actual decision |
 |---|---|
-| Cognitive job | The question or decision this screen resolves, in one sentence |
-| First visual focus | The element the audience should notice before reading supporting copy |
-| Visual carrier | Real interface, focused crop, diagram, chart, comparison, evidence image, media frame, typographic composition, or deliberate whitespace; name the actual element, not “make it visual” |
-| Claim-to-visual link | Which fact, mechanism, relationship, or output the carrier makes observable |
-| Truth and provenance | Source, rights, truth state (`VERIFIED`, `PROPOSED`, `SIMULATED`, or `UNKNOWN`), and fallback |
-| Static frame | What remains understandable in a screenshot, print, and reduced-motion mode |
-| Motion state | What changes over time, why that change clarifies order, causality, focus, hierarchy, or feedback, and the final readable state |
-| Continuity | What visual or conceptual element carries into the next screen |
+| Audience question / role | Why this scene exists here and what it adds |
+| Takeaway / copy | Concrete meaning, title, necessary explanation and qualification |
+| Source / example | Exact evidence or clearly labeled illustration; availability and sharing scope |
+| Visual scene | What is seen: a focused screen crop, output board, directed diagram, comparison, photo, chart, typographic statement, etc.; what geometry expresses |
+| Attention / motion | First focus; before→after, trigger and replay when motion helps; final/static/reduced state |
+| Connection / timing | How this leads to the next scene; speech, demo, pause and interaction allowance |
 
-Use the brief to reject “title + paragraph + equal cards” when it does not answer the cognitive job. A product value claim should point to an observable action, response, output, or workflow consequence. A relationship, comparison, or process should be spatially represented; prose can qualify the picture but should not be the only representation.
+This row is the visual production brief; do not duplicate it in another checklist. “Make it beautiful” or “show value” is not a scene. Pick the actual carrier, its scale and the relation it explains.
 
-### Representative-page gate
+### Select a scene by the question
 
-Before expanding a deck beyond its first small set of screens, build and render a representative slice containing:
+- **What does it produce?** Show an inspectable output or a coordinated set of outputs, with short annotations on what changed and what can be used.
+- **How do I use it?** Show the interface at legible scale, focus on the relevant control and follow through to the result. Menu thumbnails do not demonstrate use.
+- **How does it work?** Draw actors, labeled steps, decisions, handoffs and outputs. Make direction and transformation visible.
+- **Where does information go?** Follow one information object through sources, transformation, review and destination. A ring of capability names is not a data-flow diagram.
+- **Why choose this?** Compare the same task on shared criteria; show a supported change without inventing a baseline or uplift.
+- **What is the main idea?** Use deliberate typography or one visual metaphor. Text-led scenes are valid when the words themselves are the focus.
 
-- the opening or cover;
-- the strongest product, evidence, or demonstration screen;
-- a process, relationship, comparison, or data screen when the story needs one;
-- the densest screen;
-- the ending or synthesis.
+## Produce, review, extend
 
-Inspect this slice at the target size. If it still reads as repeated text cards, the interface is too small to read, the diagram has no direction, or the ending has no new visual or conceptual state, stop and revise the visual system before generating the remaining screens. This is a production gate, not a request for user approval.
+Render representative scenes early: opening, strongest product/evidence scene, relationship/process if relevant, densest scene, ending. Inspect what the audience actually sees at target scale, not the length of the storyboard. Fix unresolved content, unreadable imagery and undifferentiated card grids before extending.
 
-### Coverage rehearsal
+Map explicit requested screenshots, diagrams, video and motion to actual scenes. Keep `planned`, `implemented`, `rendered`, and `reviewed` distinct in the existing record. Missing media needs a useful poster/fallback and a disclosed gap; a prompt, frame or CSS rule is not the requested asset or behavior.
 
-For the completed storyboard, mark each screen as `visualized`, `text-led by intent`, or `needs-rework`. A text-led screen is acceptable when expressive type, a quote, a definition, a pause, or a carefully composed argument is itself the visual carrier. It is not acceptable when it is only a convenient fallback for a missing image or unexplained product behavior. Review adjacent screens for sameness: repeated card grids, repeated centered headings, and repeated fade-up reveals need a narrative reason and a visible change in emphasis.
+Review the whole sequence for repetition and pacing. A text-led screen may be intentional; a long run of interchangeable title/paragraph/cards that leaves the product invisible needs redesign. Do not repair that by sprinkling icons or counting images. Budget speech, reveals, playback, transitions and pauses together; only continuous rehearsal establishes an actual elapsed duration.

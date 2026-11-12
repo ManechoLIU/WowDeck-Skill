@@ -53,7 +53,9 @@ Translate explicit user requirements into a compact coverage record within the e
 
 ## Build the content dependency graph
 
-Do not choose page titles first. Inventory material as nodes, then connect only relationships that affect comprehension or trust.
+For a short or clear request, keep these relationships as a few notes in the storyboard. Use a formal graph only when it helps resolve real dependencies; it is not an extra deliverable.
+
+Inventory the important material and relationships before locking the page order. A concrete demonstration or useful scene idea can be a starting point; ensure its prerequisites and evidence are present.
 
 Useful node roles include:
 

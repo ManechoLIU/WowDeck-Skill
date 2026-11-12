@@ -20,10 +20,12 @@ jobs:
       - name: Compile Python
         run: python -m py_compile skill/wowdeck/scripts/*.py tests/test_wowdeck_cli.py tests/test_presenter_runtime.py
       - name: Check browser fixture runner
-        run: node --check tests/forward/non-pitch-teaching/browser-check.cjs
+        run: |
+          node --check tests/forward/non-pitch-teaching/browser-check.cjs
+          node --check skill/wowdeck/scripts/inspect_deck.cjs
       - name: Install browser acceptance runtime
         run: |
-          npm install --no-save --package-lock=false playwright@1.62.1
+          npm install --no-save --package-lock=false playwright@1.62.1 sharp@0.34.5
           npx playwright install --with-deps chromium
       - name: Run CLI contract tests
         env:

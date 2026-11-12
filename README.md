@@ -2,7 +2,7 @@
 
 WowDeck 是一个场景驱动的 HTML 演示生成 Skill。它先理解受众、传播任务、内容依赖、事实风险和交付环境，再生成适合当前场景的内容逻辑、视觉语言、可选运行能力与验收方案。
 
-它不是固定的商业提案模板，也不默认要求 16:9、讲稿、视频、计时或行业视觉。
+它以完成的视觉场景为产物：把具体任务、真实或明确标注的产出、构图和动效连成可讲述的体验，并按场景选择比例、媒体和控制功能。
 
 内容制作从受众问题进入逐页分镜，再落实产品使用旅程、业务价值、图文关系和动效。方法见 [内容导演](skill/wowdeck/references/content-direction.md)，通用正反模式见 [方法示例](skill/wowdeck/references/experience-casebook.md)，GitHub 调研依据与采纳边界见 [研究记录](docs/research/2026-11-10-content-and-visual-direction.md)。
 
@@ -41,9 +41,10 @@ cp -R skill/wowdeck/. "${CODEX_HOME:-$HOME/.codex}/skills/wowdeck/"
 ```bash
 python3 -m py_compile skill/wowdeck/scripts/*.py
 python3 -m unittest discover -s tests -v
+node skill/wowdeck/scripts/inspect_deck.cjs path/to/index.html path/to/new-inspection
 ```
 
-自动化测试覆盖 core-only、条件 features、presenter 浏览器行为、媒体准备、poster/manifest 规则、依赖闭包、脚本注入防护，以及验收回执的陈旧检测。真实演示仍需按目标浏览器、视口和交付格式做视觉与行为验收。
+自动化测试覆盖 core-only、条件 features、presenter 浏览器行为、媒体准备、poster/manifest 规则、依赖闭包、脚本注入防护，以及验收回执的陈旧检测。`inspect_deck.cjs` 需要 Playwright、sharp 和 Chromium，可通过 `NODE_PATH` 指定依赖位置；它逐页导航、截图并生成总览与运行报告。它不评判审美或内容，真实演示仍需检查全尺寸画面、内容和动效。
 
 ## 状态
 

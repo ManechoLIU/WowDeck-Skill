@@ -4,6 +4,16 @@ Use these patterns to diagnose a presentation and choose a correction. The short
 
 ## Patterns that help
 
+### Build continuity around the work
+
+**Use when:** Several product capabilities need both orientation and a memorable demonstration.
+
+**Action:** Keep an overview spatially stable; focus a relevant region in place, show the concrete work/output, explain its significance, and reconnect when useful. Preserve the named object across steps rather than substituting unrelated cards.
+
+**Synthetic example:** A document-review map focuses the source-check step, opens the source beside a revision, then returns to the map with the approved state visible. A separate output board explains what is ready to reuse.
+
+**Check:** The viewer knows where they are, what changed and why. Remove repeated returns that add ceremony, and use other routes when a hub does not help.
+
 ### Connect product experience to business meaning
 
 **Use when:** The audience needs to understand a product or an otherwise invisible working process.
@@ -28,6 +38,10 @@ Use these patterns to diagnose a presentation and choose a correction. The short
 
 | Failure pattern | Correction | Acceptance and limits |
 |---|---|---|
+| Generalisation removes concrete making guidance, leaving only prohibitions and bookkeeping | Keep scene families, subject research, outcome-first demonstrations and motion techniques available while making defaults adaptable. | Test the resulting deck, not the number of rules. |
+| “Business audience” erases the product into management slogans | Explain the actual task, action, response, output and next use in business language. | The listener can describe the operation as well as the relevance. |
+| Image/SVG/layout/animation quotas act as a quality score | Keep source inventory separate; ignore decoration and inspect rendered meaning, legibility and motion. | CSS diagrams and deliberate typography remain legitimate. |
+| A browser tab is opened and treated as verification | Navigate, capture, inspect, replay and check actual output; preserve evidence. | Opening and page-loading alone prove no visual acceptance. |
 | Full-slide backgrounds alternate light and dark to manufacture rhythm | Keep one canvas polarity; vary composition, scale, spacing, local surfaces, and semantic motion. | Inspect every slide in a rendered gallery; a config flag alone is insufficient. |
 | A question about the existing palette is treated as approval to replace it | Explain the current choice and preserve the latest accepted baseline until an actual change instruction or resolved material need exists. | Applies to revisions. A new explicit decision can replace the baseline. |
 | A named customer or example is confused with the entire target market | Separate product category, primary audience, venue, and illustrative example before writing the opening. | Check the opening, examples, and ending for accidental audience narrowing or widening. |

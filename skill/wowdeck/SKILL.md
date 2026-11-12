@@ -1,36 +1,59 @@
 ---
 name: wowdeck
-description: Design, build, adapt, or audit scenario-driven HTML presentations whose content logic, visual form, runtime capabilities, and acceptance match the audience, communication job, evidence risk, and delivery context. Use for browser-authored talks, lessons, reports, defenses, demos, launches, and requested PDF, PPTX, MP4, or public-link derivatives.
+description: Create polished, visually directed HTML presentations with concrete audience stories, product demonstrations, diagrams, imagery, and purposeful motion. Use for talks, lessons, roadshows, reports, demos, and revisions; validate requested PDF, PPTX, MP4, or public-link derivatives separately.
 ---
 
 # WowDeck
 
-Build a presentation for the specific act of communication in front of you. Do not begin from a pitch arc, industry template, fixed aspect ratio, fixed page sequence, or mandatory interaction set.
+Make a presentation people can understand, remember, and want to watch. Deliver finished visual scenes, with concrete content and a paced sequence. A valid HTML shell, a polished outline, or a pile of cards is an intermediate artifact.
 
-The canonical authoring source is the smallest reproducible package of structured content, configuration, approved assets, and builder/runtime revision. HTML is the primary delivery artifact rendered from that source. Create only the deliverables the user requested, and keep every derivative bound to the same accepted source and rendered-artifact identity. A public link is a separate publication outcome, not an automatic consequence of producing local files.
+## Start from the actual task
 
-## Operating contract
+Inspect the supplied material, existing deck, product, assets, and accepted choices. A praised deck is a craft reference: inspect its actual rendered scenes and transitions, then name the transferable techniques. Keep its industry, private content, and palette separate from those techniques.
 
-- Inspect the supplied sources, current implementation, delivery environment, and existing decisions before designing.
-- Preserve factual boundaries. Distinguish sourced facts, interpretations, proposals, simulations, generated material, and unknowns at a prominence proportional to their risk.
-- Translate explicit audience, product-value, imagery, diagram, video, and motion requests into observable acceptance conditions. Optional capabilities become required when the request needs them; minimal runtime is not permission to under-deliver.
-- Treat scenario labels and external presentation frameworks as reasoning aids only. Derive general principles; do not copy their branded language, sample copy, or fixed narrative arc.
-- Choose one deck-wide canvas mode—`light` or `dark`—and keep every slide background within it. Never alternate light and dark full-slide backgrounds for rhythm or emphasis; create variation with composition, scale, spacing, typography, accent, imagery, and local surfaces instead.
-- Keep one canonical source of truth for content, configuration, assets, and generation logic. Regenerate HTML and its derivatives instead of editing HTML, PDF, PPTX, and MP4 as independent versions. If only a final HTML artifact exists, label it `artifact-only` rather than implying it is reproducible.
-- Ask only when a missing choice would materially change the audience, communication outcome, artifact format, cost, publication authority, or risk. Otherwise record a reasonable assumption and continue.
+Choose the communication job before the route. For a product introduction, explain the product through meaningful work and visible outputs. For teaching, develop understanding through examples and practice. For a report, make the evidence and its implications legible. Use conventions as useful defaults; adapt them when the material calls for another route. Explicit current user instructions and accepted choices take precedence over aesthetic defaults; adapt and validate affected runtime contracts rather than silently overriding the direction.
 
-## Workflow
+Keep the Strategy Note compact: audience, desired change, throughline, evidence limits, delivery conditions. Use [strategy.md](references/strategy.md) for complex or ambiguous material. Do not spend the production effort on internal forms while leaving the deck unmade.
 
-1. Write the five-part internal Strategy Note in [references/strategy.md](references/strategy.md). It defines the audience/context, desired shift/job, central question/route/ending, claim/evidence risk, and delivery constraints/features.
-2. Build a dependency graph from the material, then choose a justified route through it. The graph—not a scenario template—determines sequence, screen roles, explanation depth, and closing behavior. Use [references/content-direction.md](references/content-direction.md) to turn that route into audience-ready wording, a compact per-screen storyboard, and a visual production brief before layout. For product talks, connect real user actions to concrete business value and show a coherent usage journey; a feature list or a slogan is not a product explanation.
-3. Synthesize a visual system from the communication task and delivery conditions. Review applicable reusable patterns in [references/experience-casebook.md](references/experience-casebook.md); apply their conditions without copying an example’s industry, palette, or page sequence. Read [references/visual-system.md](references/visual-system.md) when creating or materially changing art direction, layouts, charts, emphasis, or motion. Build and inspect representative pages before expanding a long deck; do not let a starter shell or repeated card grid become the visual system by inertia.
-4. Implement the storyboard’s visual production brief and any justified semantic motion, then compose the HTML capabilities the task needs. A starter shell or text-only outline is not a finished visual presentation. Every important claim needs an appropriate visual carrier: interface, diagram, chart, comparison, evidence image, media frame, or intentional typographic composition. Read [references/html-runtime.md](references/html-runtime.md) when implementing or changing the browser artifact. The only optional runtime features are `navigation`, `presenter`, `media`, and `dialog`; reduced-motion support is part of the baseline.
-5. When reproducible source inputs exist, declare them in `deck-dependencies.json`; otherwise label the result rendered-only or artifact-only. Bind the canonical source and requested outputs to one artifact identity, then validate each requested format by its own acceptance path. Run the visual coverage and representative-page checks in [references/quality-gates.md](references/quality-gates.md) before calling a deck complete; structural validation alone cannot establish visual quality.
+## Direct the content and the scenes together
 
-## Boundaries
+Read [content-direction.md](references/content-direction.md) before writing a new deck or materially changing its story. For product work, first inspect enough source material to name the actual inputs, actions, outputs, and useful next uses. Business-facing language must still explain the product. “Audience: business owners” does not mean “replace the product with management slogans.”
 
-- Do not require a call to action, decision ask, climax, presenter notes, media, dialog, agenda, progress indicator, or animation unless the Strategy Note justifies it.
-- Do not force 16:9. Select the supported 16:9 or 4:3 stage from the delivery need; if another geometry is essential, treat it as an explicit runtime change and test the actual target environment.
-- Generated imagery, paid media generation, external publication, and deployment require the authorization appropriate to those actions. A local render or HTTP response does not prove a public outcome.
-- Keep internal Strategy Notes, private research, credentials, absolute local paths, and unapproved source material out of distributable artifacts.
-- When extracting or updating this skill, publish abstract methods, neutral templates, and synthetic tests only. Reading private decks or feedback for learning does not authorize uploading them: keep original presentations, media, project/customer identities, quotes, dates, conversation records, and recognizable case histories local unless separately authorized for the exact material. A private remote repository still counts as an upload.
+Write one integrated storyboard in the existing working source: audience question, concrete takeaway, source/example, visual scene, attention/motion, next connection. Keep a full usage journey when needed, and give important capabilities their own demonstrations rather than squeezing every feature into one generic flow.
+
+Where useful, let the audience see an output or changed situation before explaining the mechanism. Build the route around recognisable situations, inspectable work, and consequences; do not begin with a feature menu or force a pitch arc onto unrelated tasks.
+
+## Produce the visual experience
+
+Read [visual-system.md](references/visual-system.md). It contains composition families, projection sizes, scene transformations, media treatments, and motion recipes. For a product talk or a request for expressive visuals, open [scene-craft.html](assets/reference/scene-craft.html) in a browser and inspect its overview→focus→change→output treatments; it is a synthetic craft specimen, not a page sequence or palette to clone. Choose a subject-specific visual language and actually implement it. Layout, typography, imagery, diagrams, and motion are expressive tools; choose and combine them deliberately.
+
+For a product or visually rich talk, a strong working pattern is `orient in a stable overview → focus on one capability → show the work/result → explain its significance → reconnect`. Use it when it helps orientation, without manufacturing a hub on every page. A light canvas, dark canvas, quiet typography, or energetic motion can all be excellent; preserve the accepted direction and keep one deck-wide light/dark canvas mode.
+
+Build a small representative slice before multiplying pages: opening, strongest demonstration, a relationship/process scene when relevant, densest page, and ending. Render it. Compare its full-size scenes with the user’s praised reference when available, otherwise the craft specimen: can the audience inspect an actual result, see a meaningful transformation, and follow an intentional focal hierarchy? A generic wireframe, tiny panel in an empty canvas, or repeated entrance animation is still an intermediate. Refine those gaps before extending the deck. This production checkpoint needs no new approval when choices are already settled.
+
+## Build and inspect
+
+The initializer is optional runtime scaffolding:
+
+```bash
+python3 scripts/init_deck.py OUTPUT_DIR --title "Deck title" --features navigation
+```
+
+Resolve script paths from this skill directory. Replace the placeholder slide **and its starter composition styles**; reuse the tested controller, not its title/paragraph geometry as the whole design. [html-runtime.md](references/html-runtime.md) describes the existing navigation, presenter, media, and dialog contracts. Images, diagrams, charts, composition, and motion do not require feature flags.
+
+Keep one reproducible authoring package when possible; a small HTML-only deck can remain honestly `artifact-only`. Do not add a build system merely to satisfy paperwork. Bind requested derivatives to the accepted source.
+
+```bash
+python3 scripts/validate_deck.py OUTPUT_DIR/index.html --receipt
+node scripts/inspect_deck.cjs OUTPUT_DIR/index.html OUTPUT_DIR/inspection
+```
+
+The second command needs Playwright, sharp and an installed Chromium (set `NODE_PATH` to the available package directory if necessary). It captures actual navigation and rendered pages. Review the contact sheet **and full-size scenes**, then watch intended reveals in the browser. Opening a tab is not inspection. Neither tool judges the story, taste, or persuasion: use [quality-gates.md](references/quality-gates.md) for that separate review. If browser execution is unavailable, report the render layer as unverified.
+
+## Keep truth and scope intact
+
+- Preserve sources, uncertainty, rights, and sharing limits. A plausible workflow or generated concept is not product evidence or measured ROI.
+- Use permitted existing assets and HTML/SVG to explain missing visuals. A video placeholder is a reserve, not a working demo; disclose unmet requested media instead of silently downgrading it to text. Generated or paid media needs the applicable authority.
+- Select stage geometry and optional runtime controls for the delivery conditions; preserve reduced-motion access and readable static output.
+- Publish only requested outputs. Public links, deployment, external calls, and paid generation have their own authorization and acceptance.
+- When improving this shared skill, keep private decks, media, identities, feedback quotes, conversation history, and local paths outside it. Share abstract techniques and synthetic examples only. [experience-casebook.md](references/experience-casebook.md) records reusable conditions and failure patterns.

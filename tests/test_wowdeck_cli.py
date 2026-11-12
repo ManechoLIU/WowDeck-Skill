@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -510,50 +511,83 @@ class WowDeckCliTests(unittest.TestCase):
         self.assertEqual(width, 1600)
         self.assertGreater(height, 900)
 
-    def test_validator_reports_visual_coverage_and_text_runs_for_long_decks(self) -> None:
+    def test_structure_receipt_cannot_claim_visual_quality(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            index_path = self.init_deck(Path(temporary) / "deck", "navigation")
-            text = self.complete_starter(index_path)
-            source = index_path.read_text(encoding="utf-8")
-            slides = []
-            for number in range(2, 9):
-                slides.append(
-                    f'<section class="slide" id="slide-{number}" data-title="Slide {number}">'
-                    f'<h2>Slide {number}</h2><p>Text-led content.</p></section>'
-                )
-            # Keep this fixture intentionally text-led so the validator exposes
-            # the quality warning without turning it into a hard structural fail.
-            index_path.write_text(source.replace("</main>", "\n".join(slides) + "</main>", 1), encoding="utf-8")
-            result = self.assert_validation_passes(index_path)
-            coverage = result["facts"]["visual_coverage"]
-            self.assertEqual(coverage["slides_with_visual_carriers"], 0)
-            self.assertEqual(coverage["slide_count"], 8)
-            warnings = "\n".join(result["warnings"])
-            self.assertIn("low visual coverage", warnings)
-            self.assertIn("long run of text-led slides", warnings)
+            index_path = self.init_deck(Path(temporary) / "deck", "none")
+            self.complete_starter(index_path)
+            completed, result = self.validate_json(index_path, receipt=Path("receipt.json"))
+            self.assertEqual(completed.returncode, 0, output_of(completed))
+            self.assertTrue(result["ok"])
+            self.assertEqual(result["facts"]["quality_status"], "not_assessed")
+            receipt = json.loads((index_path.parent / "receipt.json").read_text())
+            self.assertEqual(receipt["quality_status"], "not_assessed")
+            self.assertEqual(receipt["visual_inventory"]["scope"], "source_inventory_only")
 
-    def test_validator_counts_declared_visual_carriers_and_screen_roles(self) -> None:
+    def test_visual_inventory_excludes_decoration_and_handles_nested_sections(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             index_path = self.init_deck(Path(temporary) / "deck", "none")
             self.complete_starter(index_path)
             source = index_path.read_text(encoding="utf-8")
-            source = re.sub(
-                r'(<section\b[^>]*\bclass="slide(?:\s+is-active)?")',
-                r'\1 data-screen-role="product" data-layout="product-stage"',
-                source,
-                count=1,
+            # Decorative SVGs and hidden notes inflated the previous coverage
+            # score, while HTML-only diagrams could disappear after a nested section.
+            scene = (
+                '<svg aria-hidden="true"><path d="M0 0L1 1"/></svg>'
+                '<div hidden><div data-visual="evidence">Hidden content</div></div>'
+                '<section><p>Nested scene</p></section>'
+                '<div data-visual="workflow" role="img" aria-label="Input to reviewed output">'
+                '<span>Input</span><span>→</span><span>Reviewed output</span></div>'
             )
-            source = source.replace(
-                '<div class="slide-content">',
-                '<div class="slide-content"><figure class="product-stage"><figcaption>Product stage</figcaption></figure>',
-                1,
-            )
+            source = source.replace('<div class="slide-content">', '<div class="slide-content">' + scene, 1)
             index_path.write_text(source, encoding="utf-8")
             result = self.assert_validation_passes(index_path)
-            coverage = result["facts"]["visual_coverage"]
-            self.assertEqual(coverage["slides_with_visual_carriers"], 1)
-            self.assertEqual(coverage["carrier_slides"], ["slide-1"])
-            self.assertEqual(coverage["screen_roles_without_carriers"], [])
+            inventory = result["facts"]["visual_inventory"]
+            self.assertEqual(inventory["slides_with_candidates"], 1)
+            self.assertEqual([c["kind"] for c in inventory["slides"][0]["candidates"]], ["workflow"])
+            self.assertEqual(inventory["quality_status"], "not_assessed")
+
+    def test_omitted_optional_end_tags_do_not_leak_slide_membership(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            index_path = self.init_deck(Path(temporary) / "deck", "none")
+            self.complete_starter(index_path)
+            source = index_path.read_text(encoding="utf-8")
+            source = re.sub(r"<h1\b[^>]*>.*?</h1>", "", source, flags=re.DOTALL)
+            scene = (
+                '<section><p>Nested content</section>'
+                '<div data-visual="workflow">Inside</div>'
+                '<ul><li>First<li>Second</ul><p>Unclosed paragraph'
+            )
+            source = source.replace('        </section>\n      </main>', scene + '</section>'
+                                    '<h2>Outside title</h2><div data-visual="outside">Outside</div>'
+                                    '\n      </main>', 1)
+            index_path.write_text(source, encoding="utf-8")
+            result = self.assert_validation_passes(index_path)
+            self.assertIn("slide-1 has no h1 or h2", result["warnings"])
+            candidates = result["facts"]["visual_inventory"]["slides"][0]["candidates"]
+            self.assertEqual([candidate["kind"] for candidate in candidates], ["workflow"])
+
+    def test_optional_start_tags_close_note_and_hidden_contexts(self) -> None:
+        spec = importlib.util.spec_from_file_location("wowdeck_validator", VALIDATE_DECK)
+        validator = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(validator)
+        cases = (
+            ('<ul><li data-notes>secret<li data-visual="visible">visible</ul>', 1),
+            ('<p data-notes>secret<p data-visual="visible">visible', 1),
+            ('<dl><dt data-notes>secret<dd data-visual="visible">visible</dl>', 1),
+            ('<table><tr><td data-notes>secret<td data-visual="visible">visible</table>', 2),
+            ('<ul><li data-notes>secret<ul><li>nested</ul><li data-visual="visible">visible</ul>', 1),
+        )
+        for markup, candidate_count in cases:
+            with self.subTest(markup=markup):
+                parser = validator.DeckParser()
+                parser.feed('<section class="slide" id="a">' + markup + '</section><h1>Outside</h1>')
+                self.assertEqual(parser.slides[0]["headings"], 0)
+                note_text = "".join(parser.notes[0]["chunks"])
+                self.assertNotIn("visible", note_text)
+                self.assertIn("secret", note_text)
+                if "nested" in markup:
+                    self.assertIn("nested", note_text)
+                self.assertEqual(len(parser.slides[0]["visual_candidates"]), candidate_count)
+                self.assertEqual(parser.slides[0]["visual_candidates"][-1]["kind"], "visible")
 
     def test_core_only_init_resolves_template_tokens_but_keeps_completion_marker(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

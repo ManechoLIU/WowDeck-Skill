@@ -1,8 +1,8 @@
 interface:
-  display_name: "WowDeck Scenario Presentations"
-  short_description: "Scenario-driven HTML presentations for real audiences"
+  display_name: "WowDeck Visual Presentations"
+  short_description: "Directed stories, product scenes, imagery and purposeful motion"
   brand_color: "#56D9B0"
-  default_prompt: "Use $wowdeck to design a scenario-driven HTML presentation for my audience, communication goal, evidence, and requested delivery formats."
+  default_prompt: "Use $wowdeck to create a polished HTML presentation with a concrete story, visual scenes, demonstrations and purposeful motion for my audience. Inspect the rendered result before delivery."
 
 policy:
   allow_implicit_invocation: true

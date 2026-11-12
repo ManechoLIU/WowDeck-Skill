@@ -11,7 +11,7 @@ Use these gates before calling a presentation or any derivative complete. Run on
 - Each unit has a clear role and focus; it does not need to be a sales claim or conclusion.
 - Optional features and requested deliverables are justified by delivery constraints.
 - The request coverage record maps explicit content, diagrams, screenshots, media, and motion requirements to implemented screens and actual evidence or a disclosed gap. A starter shell does not pass as a finished presentation.
-- For product talks, the audience can explain what the product does, how a coherent usage journey works, and why its outputs matter; business value is more specific than feature names or slogans.
+- For product talks, the audience can explain the important inputs, actions, responses, outputs and useful next uses. Each important capability receives enough explanation/demonstration; one generic journey does not replace the product. Business relevance is concrete without inventing ROI.
 - Internal production notes stay out of audience copy while material limitations remain accurate and understandable.
 
 ## Gate 2 — Truth, evidence, rights, and privacy
@@ -43,6 +43,8 @@ Bind each derivative by its own exact path or URL and hash together with the sou
 
 ## Gate 4 — Visual, accessibility, and reduced motion
 
+The canvas rules below describe the default runtime contract. Explicit user directions take precedence; if they require another canvas policy, adapt its configuration, validator and browser acceptance together before generating the deck. Do not change an accepted direction to fit the starter.
+
 - Visual choices derive from the Strategy Note and dependency graph rather than an unrelated template.
 - The visual contract and `deck-config` declare one deck-wide `light` or `dark` canvas mode; every slide background stays within that mode, including cover, dividers, media pages, and ending.
 - No full-slide light/dark inversion is used for pacing or emphasis. Local cards, screenshots, media frames, overlays, and dialogs may contrast without becoming an alternate page theme.
@@ -50,15 +52,15 @@ Bind each derivative by its own exact path or URL and hash together with the sou
 - Reading order, keyboard focus, alternative text, status cues, and interactive names are usable.
 - Source evidence remains distinguishable from explanation or decoration when needed.
 - Emphasis has semantic purpose; ordinary and focal states are visibly different when rhythm matters.
-- The visual production brief identifies a first focus and a real carrier for every important claim. Product, workflow, relationship, comparison, and evidence screens are not left as prose by convenience.
-- Visual coverage is distributed across the route. A long deck with only a few images, a long run of text-only screens, or one repeated card layout is a warning requiring visual review even when the HTML is structurally valid.
+- The integrated storyboard identifies a first focus and a visual scene for the important meaning. Product use, output, workflow, comparison and evidence are actually shown where needed.
+- Review the route for sameness and missing explanation. Repeated card grids, tiny screenshots, generic promises and ornamental motion require redesign when they fail the communication job. Deliberate text-led scenes and HTML diagrams are valid; image/SVG/keyframe counts and layout-name quotas are not acceptance criteria.
 - The representative-page gate has been passed before the full deck was expanded: opening, strongest evidence/product screen, relationship/process screen when applicable, densest screen, and ending were rendered and inspected.
 - Motion has a stated semantic purpose and a static/reduced-motion equivalent. A count of CSS animations or repeated fade-ups is not motion acceptance.
 - Inspect visual relationships, imagery legibility, layout variety, and the rendered motion sequence against the storyboard. Requested rich visuals cannot pass with only repeated text cards or generic entrance fades.
 - Preserve any accepted visual baseline unless the user actually requests a change; a question about an existing palette is not approval to replace it.
 - Reduced-motion mode preserves all content, hierarchy, state, and reachability without waiting for animation completion.
 
-Inspect an all-slide contact sheet or equivalent full-slide rendered gallery for canvas continuity, then inspect representative screens in detail. A computed-style inventory is insufficient because full-screen descendants, pseudo-elements, gradients, and media can change the perceived canvas. Source review alone cannot pass this gate.
+Use `node scripts/inspect_deck.cjs path/to/index.html path/to/new-inspection` (Playwright, sharp and Chromium required) to capture actual navigation in normal and reduced-motion modes, per-page renders, a gallery and runtime diagnostics. Inspect the gallery for canvas continuity, then inspect representative full-size screens and the intended motion sequence. If meaningful reveals run longer than the default 1100 ms, pass `--settle-ms 2600` or an appropriate value (maximum 10000); a final-frame capture still does not replace watching the sequence. A script report labeled `render_runtime_evidence` is not a visual quality verdict. Its navigation confirmation checks identity, bounds and ancestor styles; occlusion, clipping, readability and scene quality still require inspecting the captures. A computed-style inventory is insufficient because full-screen descendants, pseudo-elements, gradients, and media can change the perceived canvas. Source review alone cannot pass this gate.
 
 ## Gate 5 — Runtime composition
 
@@ -86,7 +88,21 @@ Interpret the receipt status precisely:
 
 Do not shorten the last two statuses to an unqualified “source verified.”
 
-The validator must reject unresolved `WOWDECK_PLACEHOLDER` markers, missing or escaping relative assets, private or absolute paths, remote runtime dependencies, undeclared detectable dynamic dependencies, invalid feature contracts, declared slide/background-mode conflicts, media/manifest mismatches, and unreadable declared media. Its background check proves declaration consistency only. Any perceived full-slide polarity switch in the rendered all-slide gallery fails Gate 4 even when structural validation passes; structural acceptance does not replace browser acceptance.
+The validator must reject unresolved `WOWDECK_PLACEHOLDER` markers, missing or escaping relative assets, private or absolute paths, remote runtime dependencies, undeclared detectable dynamic dependencies, invalid feature contracts, declared slide/background-mode conflicts, media/manifest mismatches, and unreadable declared media. The receipt explicitly says `quality_status: not_assessed`. `visual_inventory` is only a list of semantic/author-declared candidate elements; it ignores detected decoration/hidden content, cannot recognise all CSS scenes, and proves neither rendered visibility nor quality. Optional `data-visual="workflow|product|output|..."` annotations can identify a meaningful HTML/SVG group for inspection; never add empty annotated elements to satisfy an audit. Its background check proves declaration consistency only. Any perceived full-slide polarity switch in the rendered all-slide gallery fails Gate 4 even when structural validation passes; structural acceptance does not replace browser acceptance.
+
+## Content and craft review before completion
+
+Record a short finding in the existing delivery record for each applicable row, bound to the inspected artifact. The findings must name scenes and what was observed, not merely say “passed.”
+
+| Review | Evidence needed | Return to production when |
+|---|---|---|
+| Subject and product understanding | The audience can retell an important action and result from the scenes | Only benefits or menu labels can be repeated |
+| Story progression | Each scene adds understanding and the ending resolves the throughline | Many interchangeable claims or a missing mechanism |
+| Visual communication | Full-size evidence, legible relationships and deliberate compositions; compare equivalent roles against the praised reference or synthetic craft specimen | The supposed flow is prose, screenshot is unreadable, or cards replace all scene roles |
+| Continuity and pacing | Rendered gallery plus actual focus/reveal/revisit sequence | Uniform entrances or long idle demos obscure the story |
+| Truth and request coverage | Actual source/asset/behavior and stated missing item | Placeholder or plan is described as the requested demonstration |
+
+A runtime pass cannot pass these rows. Unresolved material content/craft failures block a “finished presentation” claim; continue production or report the actual incomplete layer.
 
 ## Gate 6 — Staged media acceptance
 
