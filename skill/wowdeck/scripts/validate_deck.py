@@ -82,10 +82,21 @@ class DeckParser(HTMLParser):
                 "background_mode": data.get("data-background-mode", "").strip() or None,
                 "headings": 0,
                 "notes": [],
+                "visual_carriers": [],
+                "visual_carrier_count": 0,
+                "text_chars": 0,
+                "layout_signature": data.get("data-layout", "").strip(),
+                "screen_role": data.get("data-screen-role", "").strip().lower(),
             }
             self.slides.append(self._slide)
         if self._slide is not None and tag in {"h1", "h2"}:
             self._slide["headings"] += 1
+        if self._slide is not None:
+            carrier_classes = {"diagram", "chart", "flow", "timeline", "comparison", "compare", "evidence", "evidence-board", "product-stage", "visual-carrier", "visual"}
+            if tag in {"img", "svg", "canvas", "video", "audio", "figure", "table", "blockquote"} or carrier_classes.intersection(classes):
+                carrier = tag if tag in {"img", "svg", "canvas", "video", "audio", "figure", "table", "blockquote"} else "class:" + ",".join(sorted(carrier_classes.intersection(classes)))
+                self._slide["visual_carriers"].append(carrier)
+                self._slide["visual_carrier_count"] += 1
 
         if tag in {"video", "audio"}:
             item = {
@@ -148,6 +159,8 @@ class DeckParser(HTMLParser):
             self._media_stack.pop()
 
     def handle_data(self, data: str) -> None:
+        if self._slide is not None and not self._note_contexts:
+            self._slide["text_chars"] += len(data.strip())
         for context in self._note_contexts:
             context["note"]["chunks"].append(data)
 
@@ -891,6 +904,61 @@ def validate(path: Path, check_receipt: Path | None = None) -> dict:
     if not re.search(r"@media\s+print", text, re.IGNORECASE):
         warnings.append("print styles were not detected")
 
+    # Structural checks cannot judge visual quality, but they can expose the
+    # common failure mode where a long deck silently collapses into text cards.
+    visualized_slides = [item for item in parser.slides if item.get("visual_carrier_count", 0)]
+    visual_count = len(visualized_slides)
+    slide_total = len(parser.slides)
+    if slide_total >= 6 and visual_count < max(3, (slide_total + 3) // 4):
+        warnings.append(
+            "low visual coverage: "
+            f"{visual_count}/{slide_total} slides have a declared visual carrier; "
+            "inspect the visual production brief and representative pages"
+        )
+    if slide_total >= 6:
+        text_only_runs: list[int] = []
+        run = 0
+        for item in parser.slides:
+            if item.get("visual_carrier_count", 0):
+                if run:
+                    text_only_runs.append(run)
+                run = 0
+            else:
+                run += 1
+        if run:
+            text_only_runs.append(run)
+        if max(text_only_runs, default=0) >= 4:
+            warnings.append(
+                "long run of text-led slides: "
+                f"{max(text_only_runs)} consecutive slides have no declared visual carrier"
+            )
+    role_without_carrier = [
+        str(item.get("screen_role"))
+        for item in parser.slides
+        if item.get("screen_role") in {"product", "workflow", "process", "comparison", "evidence", "data"}
+        and not item.get("visual_carrier_count", 0)
+    ]
+    if role_without_carrier:
+        warnings.append(
+            "screen roles without visual carriers: " + ", ".join(role_without_carrier)
+        )
+    custom_motion = bool(re.search(r"@keyframes|\.animate\s*\(|animation-name\s*:", text, re.IGNORECASE))
+    if custom_motion and not re.search(r"data-motion-purpose=|data-motion-role=", text, re.IGNORECASE):
+        warnings.append(
+            "motion has no detectable data-motion-purpose/data-motion-role; "
+            "record the semantic before/after and reduced-motion equivalent"
+        )
+    layout_signatures = [
+        item.get("layout_signature", "").strip()
+        for item in parser.slides
+        if item.get("layout_signature", "").strip()
+    ]
+    if slide_total >= 8 and layout_signatures and len(set(layout_signatures)) <= 2:
+        warnings.append(
+            "low layout variety: most slides share one or two layout signatures; "
+            "check for a repeated card grid replacing visual story roles"
+        )
+
     remaining_markers = sorted(marker for marker in LEGACY_STARTER_MARKERS if marker in text)
     if "WOWDECK_PLACEHOLDER" in text:
         remaining_markers.insert(0, "WOWDECK_PLACEHOLDER")
@@ -1178,6 +1246,13 @@ def validate(path: Path, check_receipt: Path | None = None) -> dict:
             "slides": len(parser.slides),
             "slide_count": len(parser.slides),
             "slide_ids": slide_ids,
+            "visual_coverage": {
+                "slides_with_visual_carriers": visual_count,
+                "slide_count": slide_total,
+                "ratio": round(visual_count / slide_total, 3) if slide_total else 0,
+                "carrier_slides": [item.get("id") for item in visualized_slides],
+                "screen_roles_without_carriers": role_without_carrier,
+            },
             "index_sha256": index_sha256,
             "manifest_sha256": manifest_sha256,
             "dependency_manifest_sha256": dependency_fact.get("sha256"),
@@ -1235,6 +1310,7 @@ def receipt_payload(result: dict) -> dict:
         "manifest_sha256": facts["manifest_sha256"],
         "features": facts["features"],
         "background_mode": facts.get("background_mode"),
+        "visual_coverage": facts.get("visual_coverage", {}),
         "source_revision": facts.get("source_revision"),
         "builder_revision": facts.get("builder_revision"),
         "variant": facts.get("variant"),

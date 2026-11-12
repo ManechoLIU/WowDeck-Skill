@@ -510,6 +510,51 @@ class WowDeckCliTests(unittest.TestCase):
         self.assertEqual(width, 1600)
         self.assertGreater(height, 900)
 
+    def test_validator_reports_visual_coverage_and_text_runs_for_long_decks(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            index_path = self.init_deck(Path(temporary) / "deck", "navigation")
+            text = self.complete_starter(index_path)
+            source = index_path.read_text(encoding="utf-8")
+            slides = []
+            for number in range(2, 9):
+                slides.append(
+                    f'<section class="slide" id="slide-{number}" data-title="Slide {number}">'
+                    f'<h2>Slide {number}</h2><p>Text-led content.</p></section>'
+                )
+            # Keep this fixture intentionally text-led so the validator exposes
+            # the quality warning without turning it into a hard structural fail.
+            index_path.write_text(source.replace("</main>", "\n".join(slides) + "</main>", 1), encoding="utf-8")
+            result = self.assert_validation_passes(index_path)
+            coverage = result["facts"]["visual_coverage"]
+            self.assertEqual(coverage["slides_with_visual_carriers"], 0)
+            self.assertEqual(coverage["slide_count"], 8)
+            warnings = "\n".join(result["warnings"])
+            self.assertIn("low visual coverage", warnings)
+            self.assertIn("long run of text-led slides", warnings)
+
+    def test_validator_counts_declared_visual_carriers_and_screen_roles(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            index_path = self.init_deck(Path(temporary) / "deck", "none")
+            self.complete_starter(index_path)
+            source = index_path.read_text(encoding="utf-8")
+            source = re.sub(
+                r'(<section\b[^>]*\bclass="slide(?:\s+is-active)?")',
+                r'\1 data-screen-role="product" data-layout="product-stage"',
+                source,
+                count=1,
+            )
+            source = source.replace(
+                '<div class="slide-content">',
+                '<div class="slide-content"><figure class="product-stage"><figcaption>Product stage</figcaption></figure>',
+                1,
+            )
+            index_path.write_text(source, encoding="utf-8")
+            result = self.assert_validation_passes(index_path)
+            coverage = result["facts"]["visual_coverage"]
+            self.assertEqual(coverage["slides_with_visual_carriers"], 1)
+            self.assertEqual(coverage["carrier_slides"], ["slide-1"])
+            self.assertEqual(coverage["screen_roles_without_carriers"], [])
+
     def test_core_only_init_resolves_template_tokens_but_keeps_completion_marker(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             deck_dir = Path(temporary) / "deck"

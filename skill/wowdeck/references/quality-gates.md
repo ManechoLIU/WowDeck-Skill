@@ -50,6 +50,10 @@ Bind each derivative by its own exact path or URL and hash together with the sou
 - Reading order, keyboard focus, alternative text, status cues, and interactive names are usable.
 - Source evidence remains distinguishable from explanation or decoration when needed.
 - Emphasis has semantic purpose; ordinary and focal states are visibly different when rhythm matters.
+- The visual production brief identifies a first focus and a real carrier for every important claim. Product, workflow, relationship, comparison, and evidence screens are not left as prose by convenience.
+- Visual coverage is distributed across the route. A long deck with only a few images, a long run of text-only screens, or one repeated card layout is a warning requiring visual review even when the HTML is structurally valid.
+- The representative-page gate has been passed before the full deck was expanded: opening, strongest evidence/product screen, relationship/process screen when applicable, densest screen, and ending were rendered and inspected.
+- Motion has a stated semantic purpose and a static/reduced-motion equivalent. A count of CSS animations or repeated fade-ups is not motion acceptance.
 - Inspect visual relationships, imagery legibility, layout variety, and the rendered motion sequence against the storyboard. Requested rich visuals cannot pass with only repeated text cards or generic entrance fades.
 - Preserve any accepted visual baseline unless the user actually requests a change; a question about an existing palette is not approval to replace it.
 - Reduced-motion mode preserves all content, hierarchy, state, and reachability without waiting for animation completion.

@@ -103,3 +103,24 @@ Create variation inside the accepted visual system: a strong typographic opening
 For talks explicitly requesting strong motion, plan techniques by meaning and timing: staged flow reveals for order, connected movement for a real transformation, focus/callout changes for interface explanation, and restrained depth for hierarchy. Do not make every screen fade upward identically. Keep atmosphere subordinate to the explanation, stop work on hidden slides, and respect the baseline reduced-motion and static-output contracts. Judge the rendered sequence and revisit/replay behavior, not the number of keyframes.
 
 Apply relevant patterns in [experience-casebook.md](experience-casebook.md) without adopting an example’s palette, wording, page count, or feature set as a universal recipe.
+
+## Turn art direction into a production system
+
+Write a small visual grammar before coding: which screen roles use a product stage, annotated detail, flow diagram, comparison, chart, evidence board, typographic statement, or quiet synthesis; which roles are allowed to repeat; and how a viewer can tell the roles apart. The grammar should create continuity without making every screen a clone.
+
+Treat visual coverage as a communication budget. Count the screens that contain a meaningful visual carrier and inspect their distribution across the route. A long deck with only a few images technically has imagery but still communicates as a document. Product, workflow, comparison, and evidence claims should have a visual carrier on the screen where the claim is made or on the immediately connected screen. If the carrier is unavailable, use a truthful diagram, a labeled simulation, or a clearly scoped text composition and record that choice.
+
+For each visual carrier answer three questions: what should be noticed first, what relationship or mechanism does its geometry encode, and what would be lost if it were replaced by prose? If the answer is unclear, the carrier is decoration. Use real interface captures at a readable scale for product explanations; use focused crops or callouts to explain one operation; use a full interface only when orientation matters. Keep labels in HTML/SVG text so they remain editable and accessible.
+
+### Motion must change the explanation
+
+Tag motion by its meaning before implementing it: `sequence`, `causality`, `focus`, `state-change`, `feedback`, or `emotional-beat`. State the before and after, the trigger, the duration, and the reduced-motion equivalent. A deck where every screen uses the same fade or translate has animation rules but no motion direction. Prefer connected flow reveals, focus shifts over an interface, state transitions, and deliberate pacing over decorative travel. The still frame must already carry the essential meaning.
+
+### Visual anti-patterns to reject
+
+- a product introduction that names features without showing an action, response, or output;
+- a relationship or comparison represented only by paragraphs;
+- a long run of slides with the same title, card grid, and alignment;
+- tiny screenshots surrounded by empty chrome, or generated imagery that pretends to be product evidence;
+- a gradient, glow, or animation count used as a substitute for a visual idea;
+- a dark/light full-slide switch used as the only chapter or emphasis device.

@@ -64,3 +64,36 @@ Map each explicit request to its screen and acceptance evidence in the existing 
 A requested video reserve needs a deliberate poster/frame, intended role, placement, and graceful fallback, with missing media recorded internally. Actual playback is accepted separately. Use permitted existing assets or native HTML/SVG diagrams when suitable. New paid generation needs its own authority; do not silently replace a requested visual deliverable with bare text when assets are unavailable.
 
 When a time limit exists, budget speech, pauses, reveals, demo playback, and transitions together. Cut redundancy and move secondary detail to an appropriate optional layer before making speech unnaturally fast. A timing sum is a plan; only an actual continuous rehearsal supports a claim that the talk fits.
+
+## Visual production brief (required before a long or visual-heavy deck)
+
+The storyboard says what a screen means; the visual production brief says what the audience will actually see. Add these fields to each row when the deck has more than a few screens, introduces a product, or explicitly asks for imagery, diagrams, video, or motion:
+
+| Field | Required decision |
+|---|---|
+| Cognitive job | The question or decision this screen resolves, in one sentence |
+| First visual focus | The element the audience should notice before reading supporting copy |
+| Visual carrier | Real interface, focused crop, diagram, chart, comparison, evidence image, media frame, typographic composition, or deliberate whitespace; name the actual element, not “make it visual” |
+| Claim-to-visual link | Which fact, mechanism, relationship, or output the carrier makes observable |
+| Truth and provenance | Source, rights, truth state (`VERIFIED`, `PROPOSED`, `SIMULATED`, or `UNKNOWN`), and fallback |
+| Static frame | What remains understandable in a screenshot, print, and reduced-motion mode |
+| Motion state | What changes over time, why that change clarifies order, causality, focus, hierarchy, or feedback, and the final readable state |
+| Continuity | What visual or conceptual element carries into the next screen |
+
+Use the brief to reject “title + paragraph + equal cards” when it does not answer the cognitive job. A product value claim should point to an observable action, response, output, or workflow consequence. A relationship, comparison, or process should be spatially represented; prose can qualify the picture but should not be the only representation.
+
+### Representative-page gate
+
+Before expanding a deck beyond its first small set of screens, build and render a representative slice containing:
+
+- the opening or cover;
+- the strongest product, evidence, or demonstration screen;
+- a process, relationship, comparison, or data screen when the story needs one;
+- the densest screen;
+- the ending or synthesis.
+
+Inspect this slice at the target size. If it still reads as repeated text cards, the interface is too small to read, the diagram has no direction, or the ending has no new visual or conceptual state, stop and revise the visual system before generating the remaining screens. This is a production gate, not a request for user approval.
+
+### Coverage rehearsal
+
+For the completed storyboard, mark each screen as `visualized`, `text-led by intent`, or `needs-rework`. A text-led screen is acceptable when expressive type, a quote, a definition, a pause, or a carefully composed argument is itself the visual carrier. It is not acceptable when it is only a convenient fallback for a missing image or unexplained product behavior. Review adjacent screens for sameness: repeated card grids, repeated centered headings, and repeated fade-up reveals need a narrative reason and a visible change in emphasis.
